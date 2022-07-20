@@ -768,102 +768,102 @@ for a in range(5):
   # 알고리즘 풀때 좋음(else문이 있을 때 편하다.)
   ```
 
-  > enumerate 복습
+> enumerate 복습
 
-  ```python
-  a = [1, 2, 3, 4, 5]
+```python
+a = [1, 2, 3, 4, 5]
 
-  for i in a:
-  		print(i)
+for i in a:
+		print(i)
 
-  '''
-  1
-  2
-  3
-  4
-  5
-  '''
+'''
+1
+2
+3
+4
+5
+'''
 
-  # 순서와 값을 같이 출력하고 싶을 때
+# 순서와 값을 같이 출력하고 싶을 때
 
-  a = [1, 2, 3, 4 ,5]
+a = [1, 2, 3, 4 ,5]
 
-  for i in range(len(a)):
-  		print(i)
+for i in range(len(a)):
+		print(i)
 
-  '''
-  0
-  1
-  2
-  3
-  4
-  '''
+'''
+0
+1
+2
+3
+4
+'''
 
-  # f.string사용
+# f.string사용
 
-  a = [1, 2, 3, 4, 5]
+a = [1, 2, 3, 4, 5]
 
-  for i in range(len(a)):
-  		print(f"현재 {i}번째 데이터는 {a[i]}")
+for i in range(len(a)):
+		print(f"현재 {i}번째 데이터는 {a[i]}")
 
-  '''
-  현재 0번째 데이터는 1
-  .
-  .
-  .
-  .
-  '''
+'''
+현재 0번째 데이터는 1
+.
+.
+.
+.
+'''
 
-  #enumerate 사용(좀더 pythonic한 방법)
+#enumerate 사용(좀더 pythonic한 방법)
 
-  a = [1, 2, 3, 4, 5]
+a = [1, 2, 3, 4, 5]
 
-  for i, v in enumerate(a):
-  		print(f"현재 {i}번째 데이터는 {v}")
+for i, v in enumerate(a):
+		print(f"현재 {i}번째 데이터는 {v}")
 
-  '''
-  위의 결과와 같음
-  '''
+'''
+위의 결과와 같음
+'''
 
-  # append
+# append
 
-  a = []
+a = []
 
-  for i in range(5)
-  		a.append(i) # a.append(i) == i의 값을 a에 넣으세요.
+for i in range(5)
+		a.append(i) # a.append(i) == i의 값을 a에 넣으세요.
 
-  print(a)
+print(a)
 
-  # 한줄로 줄이기(마법의 복사 붙여넣기)
-  # list comprehension
-  # 왼쪽에 값 for 범위
+# 한줄로 줄이기(마법의 복사 붙여넣기)
+# list comprehension
+# 왼쪽에 값 for 범위
 
-  a = [i for i in range(5)]
+a = [i for i in range(5)]
 
-  # 홀수만 넣을 경우
+# 홀수만 넣을 경우
 
-  a = []
+a = []
 
-  for i in range(5):
-  		if i % 2 == 1:
-  				a.append(i)
+for i in range(5):
+		if i % 2 == 1:
+				a.append(i)
 
-  a = [i for i in range(5) if i % 2 == 1]
+a = [i for i in range(5) if i % 2 == 1]
 
-  print(a)
+print(a)
 
-  # 0719 항구 문제의 다른 풀이
+# 0719 항구 문제의 다른 풀이
 
-  odd_ports = []
+odd_ports = []
 
-  for i, v in enumerate(ports):
-  		if (i + 1) % 2 == 1:
-  				odd_ports.append(v)
+for i, v in enumerate(ports):
+		if (i + 1) % 2 == 1:
+				odd_ports.append(v)
 
-  odd_ports = [v for i, v in enumerate(ports) if (i + 1) % 2 == 1]
+odd_ports = [v for i, v in enumerate(ports) if (i + 1) % 2 == 1]
 
-  print(odd_ports)
-  ```
+print(odd_ports)
+```
 
 > 함수 복습
 
