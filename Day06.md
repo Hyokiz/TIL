@@ -746,27 +746,27 @@ for a in range(5):
 		print(a)
 ```
 
-- for-else 복습
+> for-else 복습
 
-  ```python
-  for a in range(5):
-  		print(a)
-  else:
-  		print("모두 다 돌았습니다.")
+```python
+for a in range(5):
+		print(a)
+else:
+		print("모두 다 돌았습니다.")
 
-  # for의 반복이 정상적으로 끝나면 else가 작동
+# for의 반복이 정상적으로 끝나면 else가 작동
 
-  for a in range(5):
-  		print(a)
-  		if a == 3:
-  				break
-  else:
-  		print("모두 다 돌았습니다")
+for a in range(5):
+		print(a)
+		if a == 3:
+				break
+else:
+		print("모두 다 돌았습니다")
 
-  # for의 반복이 정상적으로 끝나지 않으면 else가 작동하지 않음
+# for의 반복이 정상적으로 끝나지 않으면 else가 작동하지 않음
 
-  # 알고리즘 풀때 좋음(else문이 있을 때 편하다.)
-  ```
+# 알고리즘 풀때 좋음(else문이 있을 때 편하다.)
+```
 
 > enumerate 복습
 
