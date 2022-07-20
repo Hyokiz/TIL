@@ -1584,3 +1584,63 @@ def fact(n):
 > 가상환경 예시
 
 - 동일 컴퓨터에서 별도의 가상환경
+
+---
+
+# 오후 수업 복습
+
+> keyword args
+
+- 키워드 인자 뒤에 위치 인자가 올 수 없다.
+
+> 패킹, 언패킹
+
+- 언패킹 시 괄호가 벗겨진다.
+
+> 애스터리스크
+
+- 함수의 파라미터로 들어갈 때 : 패킹
+
+```python
+def add2(*args):
+	for arg in args:
+		print(arg)
+
+add2(2)
+add2(2, 3, 4, 5)
+```
+
+- 함수의 아규먼트로 들어갈 때 : 언패킹
+- print안에 쉼표를 넣어주면 알아서 띄워준다.
+- 1, 2, 3, 4, 5를 세로로 출력할 때
+
+```python
+values = [1, 2, 3, 4, 5]
+print(*values, sep="\n")
+# 1 2 3 4 5가 세로로 출력된다
+```
+
+> Scope
+
+- Bulit-in, Global, enclosed, local
+
+```python
+a = 0
+b = 1
+
+def enclosed():
+	a = 10
+	c = 3
+
+	def local(c):
+		print(a, b, c) # 10 1 300
+		local(300)
+	print(a, b, c) # 10 1 3
+
+enclosed()
+print(a, b) # 0 1
+```
+
+- global 보다 하위 scope 에서 global 변수를 변경 할려면 global \_\_ 를 해야한다. 다만 print보다 먼저 나와야 한다.
+- nonlocal 은 중첩함수 바로 밖의 scope 의 값을 변경할 때 쓴다
+- 하위 함수가 여러 개여도 nonlocal은 한번만 써도 된다.
