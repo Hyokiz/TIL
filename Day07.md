@@ -104,4 +104,69 @@ print(a, b, c, sep = "&")
 print(a, b, c, end = "&", sep = "&")
 >>> 1&2&3&
 ```
+---
+# 추가
 
+```python
+# lambda 함수 (== 익명함수, 한 줄로 간단하게 함수를 표현)
+minus_two = lambda x: x - 2
+result = minus_two(5)
+print(result) # 3
+
+# map과 같이 사용 가능
+minus_numbers = list(map(lambda x: x - 2, [5, 6]))
+prnt(minus_numbers) # [3, 4]
+```
+
+> 재귀함수
+
+1. 재귀에 대한 이해
+
+- 재귀(Recursion)란 함수가 자기 자신을 계속 호출하며 문제를 해결하는 것을 말한다.
+  - 재귀의 깊이가 깊어질 때 마다 범위가 작아짐
+  - base-case(재귀탈출조건)과 점화식으로 이루어짐
+- 팩토리얼 문제를 통해 재귀 이해하기
+  - 상위 문제를 해결하기 위해, 그 보다 좁은 범위의 하위 문제를 먼저 해결
+```python
+4! = 4 * 3 * 2 * 1
+3! = 3 * 2 * 1
+2! = 2 * 1
+1! = 1
+
+n! = n x (n-1)!
+(n-1)! = (n-1) x (n-2)!
+```
+2. 반복문 vs 재귀
+
+```python
+def factorial(n):
+  if n <= 1:
+    return 1
+
+  return n * factorial(n - 1) # 자기 자신 호출
+
+print(factorial(4))
+>>> 24
+
+n = 4
+result = 1
+
+for i in range(1, n + 1)
+  result *= i
+
+print(result)
+>>> 24
+```
+
+3. 재귀 함수의 구조
+
+- 재귀 함수는 두 가지 부분으로 나누어 정리한다.
+  1. 종료 조건
+    - 가장 하위 문제에 도달 시 재귀를 종료할 수 있는 조건문
+
+  2. 점화식
+    - 재귀함수를 호출 하는 식
+    - 좁은 범위의 하위 문제 정의
+
+  3. 종료 조건을 작성하지 않으면
+    - RecursionError : maximum recursion depth exceeded
