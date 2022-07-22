@@ -168,3 +168,72 @@ print(get_strong_word('z', 'a'))
 print(get_strong_word('delilah', 'dixon'))
 print(get_strong_word('a', 'a'))
 ```
+---
+
+# 프로젝트 관련
+
+> 딕셔너리 get 메서드
+
+```python
+a = {'key' : 'value'}
+
+a ['key']
+a.get('key')
+# 둘이 같다
+a.get('name', ???)
+# ??? 은 key값(name)이 존재 하지 않을 경우 기본값으로 ???를 가져온다.
+```
+
+> 데이터 추출 및 생성 예시
+
+```python
+def make_dict(data):
+    new_data = {
+        '원제': data.get('original_title'),
+        '개봉년도': data.get('release_date')[:4],
+        '평점': data.get('vote_average'),
+    }
+    return new_data
+
+
+movie = {
+    'genre_ids': [18, 80],
+    'id': 278,
+    'original_title': 'The Shawshank Redemption',
+    'release_date': '1995-01-28',
+    'title': '쇼생크 탈출',
+    'vote_average': 8.7,
+}
+
+print(make_dict(movie))
+```
+
+> open 및 json 모듈 사용예시
+
+```python
+import json
+from pprint import pprint
+
+movie = open('sample.json', encoding='utf-8')  # 상대경로
+# 파일 이름은 문자열로 받는다. utf-8 : 인코딩 방식 중 하나
+# './sample.json의 ./가 생략되어있는 것으로, 현재 폴더에서 연다.
+# json = 요청과 응답 할 때 주고 받는 데이터
+
+movie_detail = json.load(movie)  # json -> dict
+# json 은 dictionary와 비슷한 것이지만, dictionary가 아니다.
+# 따라서 json형식을 dict로 바꿔주는 것이다.
+
+print(movie_detail)
+pprint(movie_detail)  # 딕셔너리를 가독성 있게 출력
+# pprint(pretty print) : 가독성 있게 출력해주는 방법
+```
+
+- open : 파일 입출력
+
+> __name__ == '__main__'
+
+- import sth : 기능을 sth에서 가져온다.
+- 필요한 기능만 가져오는 기능
+
+
+
