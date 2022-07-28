@@ -80,6 +80,7 @@ p1 = Person("k")
 p1.name
 p1.counts
 ```
+### 인스턴스메서드
 
 - 변수를 함수 안에서 찾고 없으면 함수 밖에서 변수를 가지고 온다.
 
@@ -117,4 +118,64 @@ class Person:
 person1 = Person("sth")
 person2 = Person("sone")
 print(person1 + person2) # sthsone
+```
+
+> 소멸자
+
+```python
+class Person:
+  counts = 0
+
+  def __init__(self, name, age):
+    self.name = name
+    self.age = age
+
+  def __str__(self): # 매직메서드
+    return self.name + " " + str(self.age)
+
+  def __del__(self):
+    print("삭제되었습니다.")
+
+person1 = Person("sth", 25)
+person2 = person1
+del person1
+print(person2.name) 
+# sth
+# 삭제되었습니다.
+# del == 변수가 객체를 가르키는 참조값을 없애는 것.
+# 왜 삭제되었습니다가 두번째에 나오나?
+# person1의 참조값만 삭제한 것이기 때문에 person2의 값이 나오고 프로그램이 끝났기 때문에 "삭제되었습니다"가 출력된다.
+```
+
+### 클래스 메서드
+
+- @classmethod 데코레이터를 사용하여 정의
+- 호출 시, 첫번째 인자로 클래스(cls)가 전달됨
+- 인스턴스 메서드는 클래스 변수 조회만 가능.
+
+### 스태틱 메서드
+
+- 유틸리티 함수
+- 속성을 다루지 않고 단지 기능(행동)만을 하는 메서드를 사용할 때 사용
+- 클래스 변수나 인스턴스 변수(self)를 사용하지 않을 때 @staticmethod 사용
+- 고정된 값을 여러 번 출력할 때 사용
+
+```python
+class Person():
+  counts = 0
+
+  def __init__(self, name, age):
+    self.name = name
+    self.age = age
+
+  def call_name(self):
+    return f'대전 2반 {self.name} 입니다!'
+
+  @staticmethod
+  def hello():
+    return '안녕하세요!'
+
+person1 = Person("sth", 25)
+print(person.call_name())
+print(person1.hello())
 ```
