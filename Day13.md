@@ -179,3 +179,32 @@ person1 = Person("sth", 25)
 print(person.call_name())
 print(person1.hello())
 ```
+
+### 캡슐화
+
+> Public Member
+
+- 언더바 없이 시작하는 메서드나 속성
+- 어디서나 호출 가능
+
+> Protected Member
+
+- 언더바 1개로 시작하는 메서드나 속성
+- Public과 Proviate의 가운데
+- 느슨하게 제한하는 것
+- 직접 접근하는 것을 거의 하지 않는다.(되는데 하면 안된다.)
+
+> Private Member
+
+- 언더바 2개로 시작하는 메서드나 속성
+- 앞의 class 이름을 알면 접근할 수 있으나, 그렇게 하지 않는다.
+
+> getter 메서드와 setter 메서드
+
+- 객체지향의 패러다임 때문에 사용.
+- getter : get. 가져오는 함수. 호출하는 것
+- setter : set. 바꿔주는 함수.
+- 자신이 직접 바꾸는 것이 아닌 getter, setter를 설정해서 각각의 함수에서 인자를 설정한다. 
+- 내가 직접 접근해서 값을 바꾸는 것이 아닌 조회할때는 getter, 수정할때는 setter.
+- 객체에게 메세지를 보내는 것
+- 직접 접근하는 것 처럼 보이게 하는것 = @property
