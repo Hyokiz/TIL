@@ -308,3 +308,501 @@ print(math.isclose(a, b)) # True
 - 제어문은 순서도로 표현 가능
 
 ### 조건문
+
+- 조건문은 참/거짓을 판단할 수 있는 조건식과 함께 사용
+
+### 반복문
+
+> 반복문
+
+- 특정 조건을 만족할 때까지 같은 동작을 계속 반복하고 싶을 때 사용
+
+> 반복문의 종류
+
+- while문
+  - 종료 조건에 해당하는 코드를 통해 반복문을 종료시켜야 함
+- for문
+  - 반복가능한 객체를 모두 순회하면 종료(별도의 종료 조건 필요 없음)
+- 반복 제어
+  - break, continue, for-else
+
+### While문
+
+- while문은 조건식이 참인 경우 반복적으로 코드를 실행
+- 종료 조건이 반드시 필요
+
+> 복합 연산자
+
+- 연산과 할당을 합쳐 놓은 것
+
+### for문
+
+- for문은 시퀀스(string, tuple, list, range)를 포함한 순회 가능한 객체의 요소를 모두 순회
+  - 별도의 종료 조건X
+- Iterable
+  - 순회할 수 있는 자료형(string, list, dict, tuple, range, set 등)
+  - 순회형 함수(range, enumerate)
+
+> enumerate 순회
+
+- enumerate()
+  - 인덱스와 객체를 쌍으로 담은 열거형(enumerate) 객체 반환
+    - (index, value)형태의 tuple로 구성된 열거 객체를 반환
+
+### 반복문 제어
+
+> 반복문 제어
+
+- break
+  - 반복문을 종료
+- continue
+  - continue 이후의 코드 블록은 수행하지 않고, 다음 반복 수행
+- for-else
+  - 끝까지 반복문을 실행한 이후에 else문 실행
+    - break를 통해 중간에 종료되는 경우 else 문은 실행되지 않음
+- pass
+  - 아무것도 하지 않음(문법적으로 필요하지만, 할 일이 없을 때 사용)
+
+### 함수
+
+> 함수
+
+- 함수를 왜 사용할까
+  - Decomposition(분해)
+  - Abstraction(추상화)
+
+> 함수의 종류
+
+- 함수는 크게 3가지
+  - 내장 함수
+    - 파이썬에 기본적으로 포함된 함수
+  - 외장 함수
+    - import 문을 통해 사용하며, 외부 라이브러리에서 제공하는 함수
+  - 사용자 정의 함수
+    - 직접 사용자가 만드는 함수
+
+> 함수 기본 구조
+
+- 선언과 호출(define & call)
+- 입력(input)
+- 문서화(docstring)
+- 범위(scope)
+- 결과값(output)
+
+> print vs return
+
+- 차이점
+  - print를 사용하면 호출될 때마다 값이 출력됨
+  - 데이터 처리를 위해서는 return 사용
+
+### 함수의 입력
+
+> parameter와 argument
+
+- parameter : 함수를 정의할 때, 함수 내부에서 사용되는 변수
+- argument : 함수를 호출할 때 넣어주는 값
+
+> argument
+
+- argument란?
+  - 함수 호출 시 함수의 parameter를 통해 전달되는 값
+  - argument는 소괄호 안에 할당 func_name(argument)
+    - 필수 argument : 반드시 전달되어야 하는 argument
+    - 선택 argument : 값을 전달하지 않아도 되는 경우는 기본값이 전달
+
+> keyword arguments
+
+- 직접 변수의 이름으로 특정 argument를 전달할 수 있음
+- keyword argument 다음에 positional argument를 활용할 수 없음
+
+```python
+def add(x, y):
+    return x + y
+
+add(x=2, y=5)
+add(2, y=5)
+add(x=2, 5) >> Error 발생
+```
+
+> 가변 인자(\*args)
+
+- 가변인자란?
+  - 여러 개의 positional argument를 하나의 필수 parameter로 받아서 사용
+- 가변 인자는 언제 사용?
+  - 몇 개의 positional argument를 받을지 모르는 함수를 정의할 때 유용
+
+> 패킹 / 언패킹
+
+- 패킹
+
+  - 여러 개의 데이터를 묶어서 변수에 할당하는 것
+
+- 언패킹
+  - 시퀀스 속의 요소들을 여러 개의 변수에 나누어 할당하는 것
+  - 언패킹 시 변수의 개수와 할당하고자 하는 요소의 개수가 동일해야 함
+  - 언패킹 시 왼쪽의 변수에 asterisk(\*)를 붙이면, 할당하고 남은 요소를 리스트에 담을 수 있음
+
+> Asterisk(\*)와 가변 인자
+
+- \*은 스퀸스 언패킹 연산자라고도 불리며, 말 그대로 시퀀스를 풀어헤치는 연산자
+  - 주로 튜플이나 리스트를 언패킹하는데 사용
+  - \*를 활용하여 가변 인자를 만들 수 있음
+
+> 가변 키워드 인자(\*\*kwargs)
+
+- 몇 개의 키워드 인자를 받을지 모르는 함수를 정의할 때 유용
+- **kwargs는 딕셔너리로 묶여 처리되며, parameter에 **를 붙여 표현
+
+### Python의 범위(Scope)
+
+- 함수는 코드 내부에 local scope를 생성하며, 그 외의 공간인 global scope로 구분
+
+> 이름 검색 규칙(Name Resolution)
+
+- 파이썬에서 사용되는 이름(식별자)들은 이름공간(namespace)에 저장되어 있음
+- LEGB Rule
+  - Local scope : 지역 범위(현재 작업 중인 범위)
+  - Enclosed scope : 지역 범위 한 단계 위 범위
+  - Global scope : 최상단에 위치한 범위
+  - Built-in-scope : 모든 것을 담고 있는 범위
+- 함수 내에서는 바깥 Scope의 변수에 접근 가능하나 수정은 할 수 없음.
+
+### 함수 응용
+
+> lambda 함수
+
+- 람다함수
+
+  - 표현식을 계산한 결과값을 반환하는 함수로, 이름이 없는 함수여서 익명함수라고도 불림
+
+- 특징
+
+  - return 문 X
+  - 간편 조건문 외 조건문이나 반복문 X
+
+- 장점
+  - 함수를 정의해서 사용하는 것보다 간결하게 사용 가능
+  - def를 사용할 수 없는 곳에서도 사용 가능
+
+> 재귀 함수(recursive function)
+
+- 자기 자신을 호출하는 함수
+- 무한한 호출 목표 X, 알고리즘 설계 및 구현에서 사용
+  - 점화식
+  - 변수의 사용이 줄어들며, 코드의 가독성 높아짐
+- 1개 이상의 base case(종료상황)이 존재하고, 수렴하도록 작성
+
+### 모듈
+
+- 다양한 기능을 하나의 파일로 == 모듈
+- 다양한 파일을 하나의 폴더로 == 패키지
+- 다양한 패키지를 하나의 묶음으로 == 라이브러리
+- 이것을 관리하는 관리자 == pip
+- 패키지 활용 공간 == 가상환경
+
+## 과목평가 대비 복습 03
+
+### 데이터 구조
+
+> 데이터 구조 활용
+
+- 메서드 활용
+  - 클래스 내부에 정의한 함수, 사실상 함수
+  - 객체의 기능
+
+> 문자열은 immutable인데 문자열 변경이 되는 이유
+
+- 기존의 문자열을 변경하는게 아닌 변경된 문자열을 새롭게 만들어서 반환
+  - replace, strip, title 등
+
+### 얕은복사, 깊은복사
+
+> 복사 방법
+
+- 할당
+- 얕은 복사
+- 깊은 복사
+
+> 할당
+
+- 대입 연산자(=)
+  - 해당 객체에 대한 객체 참조를 복사한다.
+
+> 얕은 복사
+
+- slice 연산자를 활용하여 같은 원소를 가진 리스트지만 연산된 결과를 복사(다른 주소)
+
+> 얕은 복사 주의사항
+
+- 복사하는 리스트의 원소가 주소를 참조하는 경우
+  - 원본과 얕은복사 둘다 변경
+
+> 깊은 복사
+
+- 하나만 변경
+
+## 과목평가 대비 복습 04
+
+### 객체지향 프로그래밍
+
+> 객체지향 프로그래밍
+
+- 프로그램을 여러 개의 독립된 객체들과 그 객체간의 상호작용으로 파악하는 프로그래밍 방법
+
+- 기술 == 문제해결
+- 문제해결을 위한 프로그래밍 == 객체지향 프로그래밍
+- 절차지향 프로그래밍 == 호출 순서에 따라 진행이 된다.
+- 프로그래밍은 저장과 처리로 나뉜다.
+- 저장과 처리를 한번에 >> 함수
+- 프로그램은 확장성이 고려되어야 한다. >> Style Guide
+- 절차지향 프로그래밍의 단점 : 확장성이 떨어진다.
+- 객체지향 프로그래밍 : 구조에 초점을 맞춤. 구조를 기준으로 프로그램이 실행된다.
+- 클래스는 단지 도구일 뿐
+- 객체의 세 가지 특징 : 역할, 책임, 협력
+- 현실세계로 예를 들면
+- 내 역할 : 교육생, 책임 : 교육받기, 협력 : 교수님과 협력하여 교육을 받음.
+- 객체지향 프로그래밍은 객체끼리 요청과 응답을 통해 이루어짐
+
+### 객체지향 프로그래밍의 구성 요소
+
+- 추상화
+- 상속
+- 다형성
+- 캡슐화
+- 위 4가지가 사실 하나이다.
+
+> 추상화
+
+- 추상화 : 정확한 원리는 몰라도 사용은 가능함. ex 핸드폰, 컴퓨터를 사용해도 작동 원리는 모른다.
+- 추상화 : 객체끼리 서로 소통할 때 역할과 책임에 맞는 주제를 협력할 때 원리는 상관 없이 요청만 하고 응답만 받으면 된다.
+
+> 캡슐화
+
+- 캡슐화 : 객체는 다른 객체의 내부에 간섭할 수 없다. 객체에게 자율성을 부여하기 때문
+- 접근제어자 : public, protected, private
+- getter :
+
+> 다형성
+
+- 다른 객체이더라도 요청했을 시 동일한 응답이 오면 괜찮다.
+
+> 상속
+
+- 상위 개념에 하위 개념에 상속되어있다.
+
+---
+
+### OOP
+
+> 클래스와 객체
+
+- 개별 객체를 하나의 타입으로 보는 것 == 추상화
+
+> 기본 문법
+
+- 클래스 정의, 인스턴스 생성, 메서드 호출, 속성
+
+> 속성
+
+- 타입/클래스의 객체들이 가지게 될 상태/데이터
+
+> 클래스변수
+
+- 클래스변수
+  - 한 클래스의 모든 인스턴스가 공유하는 값
+
+> 인스턴스와 클래스 간의 이름 공간
+
+```python
+class Person:
+  counts = 0
+
+  def __init__(self, name):
+    self.name = name
+
+p1 = Person("k")
+p1.name
+p1.counts
+```
+
+### 인스턴스메서드
+
+- 변수를 함수 안에서 찾고 없으면 함수 밖에서 변수를 가지고 온다.
+
+> 메서드
+
+- 특정 데이터 타입/클래스의 객체에 공통적으로 적용 가능한 행위(함수)
+
+> 생성자 메서드
+
+- 인스턴스 객체가 생성될 때 자동으로 호출되는 메서드
+
+> 매직 메서드
+
+```python
+class Person:
+  def __init__(self, name):
+    self.name = name
+
+  def __str__(self): # 매직메서드
+    return self.name # 매직메서드가 없을 시 Person object at id값이 나온다.
+
+person1 = Person("sth")
+print(person1) # sth
+
+class Person:
+  def __init__(self, name):
+    self.name = name
+
+  def __str__(self): # 매직메서드
+    return self.name
+
+  def __add__(self, other):
+    return self.name + other.name
+
+person1 = Person("sth")
+person2 = Person("sone")
+print(person1 + person2) # sthsone
+```
+
+> 소멸자
+
+```python
+class Person:
+  counts = 0
+
+  def __init__(self, name, age):
+    self.name = name
+    self.age = age
+
+  def __str__(self): # 매직메서드
+    return self.name + " " + str(self.age)
+
+  def __del__(self):
+    print("삭제되었습니다.")
+
+person1 = Person("sth", 25)
+person2 = person1
+del person1
+print(person2.name)
+# sth
+# 삭제되었습니다.
+# del == 변수가 객체를 가르키는 참조값을 없애는 것.
+# 왜 삭제되었습니다가 두번째에 나오나?
+# person1의 참조값만 삭제한 것이기 때문에 person2의 값이 나오고 프로그램이 끝났기 때문에 "삭제되었습니다"가 출력된다.
+```
+
+### 클래스 메서드
+
+- @classmethod 데코레이터를 사용하여 정의
+- 호출 시, 첫번째 인자로 클래스(cls)가 전달됨
+- 인스턴스 메서드는 클래스 변수 조회만 가능.
+
+### 스태틱 메서드
+
+- 유틸리티 함수
+- 속성을 다루지 않고 단지 기능(행동)만을 하는 메서드를 사용할 때 사용
+- 클래스 변수나 인스턴스 변수(self)를 사용하지 않을 때 @staticmethod 사용
+- 고정된 값을 여러 번 출력할 때 사용
+
+```python
+class Person():
+  counts = 0
+
+  def __init__(self, name, age):
+    self.name = name
+    self.age = age
+
+  def call_name(self):
+    return f'대전 2반 {self.name} 입니다!'
+
+  @staticmethod
+  def hello():
+    return '안녕하세요!'
+
+person1 = Person("sth", 25)
+print(person.call_name())
+print(person1.hello())
+```
+
+### 캡슐화
+
+> Public Member
+
+- 언더바 없이 시작하는 메서드나 속성
+- 어디서나 호출 가능
+
+> Protected Member
+
+- 언더바 1개로 시작하는 메서드나 속성
+- Public과 Proviate의 가운데
+- 느슨하게 제한하는 것
+- 직접 접근하는 것을 거의 하지 않는다.(되는데 하면 안된다.)
+
+> Private Member
+
+- 언더바 2개로 시작하는 메서드나 속성
+- 앞의 class 이름을 알면 접근할 수 있으나, 그렇게 하지 않는다.
+
+> getter 메서드와 setter 메서드
+
+- 객체지향의 패러다임 때문에 사용.
+- getter : get. 가져오는 함수. 호출하는 것
+- setter : set. 바꿔주는 함수.
+- 자신이 직접 바꾸는 것이 아닌 getter, setter를 설정해서 각각의 함수에서 인자를 설정한다.
+- 내가 직접 접근해서 값을 바꾸는 것이 아닌 조회할때는 getter, 수정할때는 setter.
+- 객체에게 메세지를 보내는 것
+- 직접 접근하는 것 처럼 보이게 하는것 = @property
+
+### 에러와 예외
+
+> 문법 에러(Syntax Error)
+
+- SyntaxError가 발생하면 실행되지 않음
+- 파일이름, 줄번호, ^를 통해 문제 발생 위치 표현
+- 에러가 감지된 가장 앞의 위치를 가리키는 캐럿(caret)기호(^) 표시
+
+> 예외
+
+- 예상치 못한 상황 > 프로그램 실행 멈춤
+- 실행 중 감지되는 에러들을 예외라고 부름
+- 예외는 여러 타입으로 나타나고, 타입이 메시지의 일부로 출력
+- 모든 내장 예외는 Exception Class를 상속받아 이뤄짐
+- 사용자 정의 예외를 만들어 관리할 수 있음
+
+> 예외 예시
+
+- ZerodivisionError : 0으로 나누고자할때
+- NameError : namespace 상에 이름이 없는 경우
+- TypeError : 타입 불일치
+- TypeError : argument 누락
+- TypeError : argument 개수 초과
+- TypeError : argument 타입 불일치
+- ValueError : 타입은 올바르나 값이 적절하지 않거나 없는 경우
+- IndexError : 인덱스가 존재하지 않거나 범위를 벗어나는 경우
+- KeyError : 해당 키가 존재하지 않는 경우
+- ModuleNotFoundError
+- ImportError : Module은 있으나 존재하지 않는 클래스/함수를 가져오는 경우
+- KeyboardInterrupt : 임의로 프로그램 종료했을 때
+- IndentationError : 들여쓰기가 적절하지 않은 경우
+
+### 예외 처리
+
+- try / except 을 이용하여 예외처리 가능
+- try
+  - 오류가 발생할 가능성이 있는 코드 실행
+  - 예외가 발생하지 않으면 except 없이 실행 종료
+- except
+  - 예외가 발생하면 except절이 실행
+  - 예외 상황을 처리하는 코드를 받아서 적절한 조치 취함
+
+> 예외 처리 종합
+
+- try
+  - 코드 실행
+- except
+  - try에서 예외 발생 시 실행
+- else
+  - try에서 예외가 발생하지 않으면 실행
+- finally
+  - 예외 발생 여부와 관계업이 항상 실행
