@@ -147,3 +147,70 @@
 
 - flex-grow : 남은 영역을 아이템에 분배
 - order : 배치 순서
+
+## Bootstrap
+
+### spacing
+
+> spacing (Margin and padding)
+
+- {property}{sides}-{size}
+- property : margin, padding
+- sides : t(top), b(bottom), s(start), e(end), x(left and right), y(top and bottom), blank(all 4 side)
+- size : 0, 1, 2, 3, 4, 5, auto
+
+> spacing
+
+- 1rem : 16px
+- 0.25rem : 4px
+- size : 1 == 4px, 2 == 8px, 3 == 16px, 4 == 24px, 5 == 48px, 0 == 좌우마진0
+- .mx-auto : 수평 중앙 정렬, 가로 가운데 정렬
+
+### color
+
+- bg-{color} = background color
+- text-{color} = text color
+
+### position
+
+- position-{position} : position을 {position}으로 설정
+
+## Bootstrap 컴포넌트
+
+> Components
+
+> Form
+
+> Navbar
+
+- 많이 쓴다.
+
+> Carousel
+
+- 온라인 쇼핑몰에서 슬라이드가 있고, 슬라이드를 넘기는 부분
+
+> Modal
+
+- 중첩해서 넣으면 안됨.
+
+> Card, grid card
+
+### Bootcamp Grid System
+
+> Grid system(web design)
+
+- 요소들의 디자인과 배치에 도움을 주는 시스템
+- 기본 요소
+  - Column : 실제 컨텐츠를 포함하는 부분
+  - Gutter : 칼럼과 칼럼 사이의 공간(사이 간격)
+  - Container : Column들을 담고 있는 공간
+
+> Bootstrap grid System
+
+- flexbox로 제작됨
+- container, rows, column으로 컨텐츠 배치하고 정렬
+- 반드시 기억해야 할 2가지
+  - 12개의 column
+  - 6개의 grid breakpoints
+
+> Grid system breakpoints
