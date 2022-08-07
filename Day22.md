@@ -311,7 +311,319 @@
 
 - 모든 HTML 요소는 Box로 되어 있다.
 - 하나의 박스는 네 부분으로 이루어짐
-  - margin
-  - border
-  - padding
-  - content
+  - margin : 테두리 바깥 외부 여백. 배경색 지정 X
+  - border : 테두리 영역
+  - padding : 태두리 안쪽의 내부 여백. 배경색, 이미지는 padding까지 적용
+  - content : 글이나 이미지 등 요소의 실제 내용
+
+> box-sizing
+
+- 기본적으로 모든 요소의 box-sizing은 content-box
+  - padding을 제외한 순수 contents 영역만을 box로 지정
+- 다만 우리가 일반적으로 영역을 볼 때는 border까지의 너비를 100px 보는 것을 원함
+  - 그 경우 box-sizing을 border-box로 설정
+
+## CSS Display
+
+> 대표적으로 활용되는 display
+
+- display : block
+
+  - 줄 바꿈이 일어나는 요소
+  - 화면 크기 전체의 가로폭 차지
+  - 블록 레벨 요소 안에 인라인 레벨 요소 들어갈 수 있다.
+
+- display : inline
+
+  - 줄 바꿈이 일어나지 않는 행의 일부 요소
+  - content 너비만큼 가로 폭 차지
+  - wid, height, margin-top, margin-bottom 지정 X
+  - 상하 여백은 line-height로 지정
+
+> 블록 레벨 요소와 인라인 레벨 요소
+
+- 대표적인 블록 레벨 요소
+  - div / ul, ol, li / p / hr / form 등
+- 대표적인 인라인 레벨 요소
+  - span / a / img / input, label / b, em, i, strong
+
+> display
+
+- display: inline-block
+
+  - block과 inline 레벨 요소의 특징 모두 가짐
+  - inline 처럼 한줄에 표시할 수 있고, block처럼 width, height, margin 속성 모두 지정 가능
+
+- display: none
+  - 해당 요소를 화면 표시 X, 공간 부여 X
+  - 이와 비슷한 visibilty: hidden은 해당 요소가 공간은 차지하나 화면에 표시 X
+
+## CSS Position
+
+> CSS position
+
+- 문서 상에서 요소의 위치 지정
+- static : 모든 태그의 기본 값(기본 위치)
+  - 일반적인 요소의 배치 순서 따름(좌상단)
+  - 부모 요소 내에서 배치 시 부모 요소의 위치를 기준으로 배치
+- 아래는 좌표 프로퍼티(top, bottom, left, right)를 사용하여 이동 가능
+  1. relative
+  2. absolute
+  3. fixed
+  4. sticky
+
+> CSS position
+
+1. relative : 상대 위치
+
+   - 자기 자신의 static 위치를 기준으로 이동(normal flow 유지)
+   - 레이아웃에서 요소가 차지하는 공간은 static일 때와 같음(normal position 대비 offset)
+
+2. absolute : 절대 위치
+
+   - 요소를 일반적인 문서 흐름에서 제거 후 레이아웃에 공간 차지 X(normal flow에서 벗어남)
+   - static이 아닌 가장 가까이 있는 부모/조상 요소를 기준으로 이동
+
+3. fixed : 고정 위치
+
+   - 요소를 일반적인 문서 흐름에서 제거 후 레이아웃에 공간 차지 X(normal flow에서 벗어남)
+   - 부모 요소와 관계 없이 viewport를 기준으로 이동
+     - 스크롤 시에도 항상 같은 곳 위치
+
+4. sticky : 스크롤에 따라 static >> fixed 로 변경
+
+   - 속성을 적용한 박스는 평소 문서 안에서 position: static 상태와 같이 일반적인 흐름에 따르지만 스크롤 위치가 임계점에 이르면 position: fixed와 같이 박스를 화면에 고정할 수 있음
+
+> CSS 원칙 정리
+
+- CSS 원칙 I, II : Normal flow
+
+  - 모든 요소는 네모(박스모델), 좌측 상단에 배치
+  - display에 따라 크기와 배치가 달라짐
+
+- CSS 원칙 III
+  - position으로 위치의 기준 변경
+    - relative : 본인의 원래 위치
+    - 특정 부모의 위치
+    - fixed : 화면의 위치
+    - sticky : 기본적으로 static이나 스크롤 이동에 따라 fixed 로 변경
+
+---
+
+## CSS layout
+
+### Float
+
+> Float
+
+- 박스를 왼쪽 혹은 오른쪽으로 이동시켜 텍스트를 포함 인라인 요소들이 주변을 wrapping 하도록 함
+- 요소가 Normal flow를 벗어나도록 함
+
+> Float 속성
+
+- none : 기본값
+- left : 요소를 왼쪽으로 띄움
+- right : 요소를 오른쪽으로 띄움
+
+### Flexbox
+
+> CSS Flexible Boy Layout
+
+- 행과 열 형태로 아이템들을 배치하는 1차원 레이아웃 모델
+- 축
+  - main axis(메인 축)
+  - cross axis(교차 축)
+- 구성 요소
+  - Flex Container(부모 요소)
+  - Flex Item(자식 요소)
+
+> Flexbox 축
+
+- flex-direction : row
+
+> Flexbox 구성 요소
+
+- Flex Container(부모 요소)
+  - flexbox 레이아웃을 형성하는 가장 기본적인 모델
+  - Flex Item들이 놓여있는 영역
+  - display 속성을 flex 혹은 inline-flex로 지정
+- Flex Item(자식 요소)
+  - 컨테이너에 속해 있는 컨텐츠(박스)
+
+> Flex 속성
+
+- 배치 설정
+
+  - flex-direction
+  - flex-wrap
+
+- 공간 나누기
+
+  - justify-content (main axis)
+  - align-content (cross axis)
+
+- 정렬
+  - align-itmes (모든 아이템을 corss axis 기준으로)
+  - align-self (개별 아이템)
+
+> Flex 속성 : flex-direction
+
+- main axis 기준 방향 설정
+- 역방향의 경우 HTML 태그 선언 순서와 시각적으로 다름.
+
+1. row : 가로로 왼쪽에서 오른쪽
+2. row-reverse : 가로로 오른쪽에서 왼쪽
+3. column : 세로로 위에서 아래로
+4. column-reverse : 세로로 아래에서 위로
+
+> Flex 속성 : flex-wrap
+
+- 아이템이 컨테이너를 벗어나는 경우 해당 영역 내에 배치되도록 설정
+- 컨테이너 영역 벗어나지 않도록 함
+
+1. wrap : 벗어날 경우 다음 줄에 배치
+2. nowrap : 한 줄에 배치되도록 가로 길이를 줄임
+
+> Flex-flow
+
+- flex-direction과 flex-wrap의 shorthand
+- 설정 값을 차례로 작성
+  - ex. flex-flow: row nowrap;
+
+> Flex 속성 : justify-content
+
+- main axis를 기준으로 공간 배분
+
+1. flex-start : 왼쪽부터
+2. flex-end : 오른쪽부터
+3. center : 가운데
+4. space-between : 양 끝 배치 후 같은 간격으로
+5. space-around : container 를 item 개수만큼 공간을 나눈 후 공간의 가운데 배치
+6. space-evenly : 모든 공간을 동일하게
+
+> Flex 속성 : align-content
+
+- cross axis를 기준으로 공간 배분
+
+1. flex-start : 위에서부터
+2. flex-end : 아래서부터 (3개일 경우 제일 밑에는 3만 옴)
+3. center : 가운데
+4. space-between : 양 끝 배치 후 같은 간격으로
+5. space-around : 위와 같음
+6. space-evenly : 위와 같음
+
+> Flex 속성 : justify-content 와 align-content 정리
+
+- 공간 배분
+  - flex-start(기본 값) : 아이템들을 axis 시작점으로
+  - flex-end : 아이템들을 axis 끝 쪽으로
+  - center : 아이템들을 axis 중앙으로
+  - space-between : 아이템 사이의 간격을 균일하게
+  - space-around : 아이템을 둘러싼 영역을 균일하게 분배(가질 수 있는 영역을 반으로 나눠서 양쪽에)
+  - space-evenly : 전체 영역에서 아이템 간 간격을 균일하게 분배
+
+> Flex 속성 : align-items
+
+- 모든 아이템을 cross axis를 기준으로 정렬
+
+> Flex 속성 : align-self
+
+- 개별 아이템을 Cross axis 기준으로 정렬
+  - 해당 속성은 컨테이너에 적용하는 것이 아니라 개별 아이템에 적용
+
+> Flex 속성 : align-items 와 align-self
+
+- cross axis를 중심으로
+  - stretch(기본 값) : 컨테이너를 가득 채움
+  - flex-start : 위
+  - flex-end : 아래
+  - center : 가운데
+  - baseline(items만) : 텍스트 baseline에 기준선을 맞춤
+
+> Flex에 적용하는 속성
+
+- 기타 속성
+  - flex-grow : 남은 영역을 아이템에 분배
+  - order : 배치 순서
+
+## Bootstrap
+
+> spacing
+
+- {property}{sides}-{size}
+  - property
+    - m(margin), p(padding)
+  - sides
+    - t(top), b(bottom), s(start), e(end), x(left, right), y(top, bottom)
+  - size
+    - 1 : 0.25rem / 4px
+    - 2 : 0.5rem / 8px
+    - 3 : 1rem / 16px
+    - 4 : 1.5rem / 24px
+    - 5 : 3rem / 48px
+    - 0 : 0
+    - auto : 수평 중앙 정렬, 가로 가운데 정렬
+
+## Bootstrap 컴포넌트
+
+> Components
+
+- Bootstrap의 다양한 UI 요소를 활용할 수 있음
+- 아래 Components 탭 및 검색으로 원하는 UI 요소 찾을 수 있음
+
+> Buttons
+
+- 클릭 했을 때 어떤 동작이 일어나도록 하는 요소
+
+> Dropdowns
+
+- 옵션 메뉴 만들수 있음.
+
+> Forms > Form controls
+
+- form-control 클래스를 사용해 input, form 태그를 스타일링할 수 있음.
+
+> Navbar
+
+- 네비게이션 바 제작
+
+> Carousel
+
+- 콘텐츠를 순환시키기 위한 슬라이드 쇼
+
+> Modal
+
+- 사용자와 상호작용 하기 위해서 사용, 긴급 상황을 알리는데 주로 사용
+- 현재 열려 있는 페이지 위에 또 다른 레이어를 띄움
+
+> Responsive Web Design
+
+- 다양한 화면 크기를 가진 디바이스들이 등장함에 따라 반응형 웹 디자인 개념이 등장
+- 반응형 웹은 별도의 기술 이름이 아닌 웹 디자인에 대한 접근 방식, 반응형 레이아웃 작성에 도움이 되는 사례들의 모음 등을 기술하는데 사용되는 용어
+
+## Bootstrap Grid System
+
+> Grid system (web design)
+
+- 요소들의 디자인과 배치에 도움을 주는 시스템
+- 기본 요소
+  - Column : 실제 컨텐츠를 포함하는 부분
+  - Gutter : 칼럼과 칼럼 사이의 공간
+  - Container : Column 들을 담고 있는 공간
+
+> Bootstrap grid System
+
+- Bootstrap Grid system은 flexbox로 제작됨
+- container, rows, column으로 컨텐츠를 배치하고 정렬
+- 반드시 기억
+  1. 12개의 column
+  2. 6개의 grid breakpoints
+
+> Grid System breakpoints
+
+- xs : <576px
+- sm : 576px < s < 768px
+- md : 768px < md < 992px
+- lg : 992px < lg < 1200px
+- xl : 1200px < xl < 1400px
+- xxl : >1400px
