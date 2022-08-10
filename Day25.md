@@ -291,3 +291,137 @@ def selectionSort(a, N):
 
 - k번째로 작은 원소를 찾는 알고리즘
   - 1번부터 k번째까지 작은 원소등를 찾아 배열의 앞쪽으로 이동, k번째 반환.
+
+---
+
+## example
+
+```python
+
+# ex.1
+
+N = 3 # 행
+M = 4 # 열
+# N 개의 원소를 갖는 0으로 초기화된 1차원 배열
+arr1 = [0] * N
+
+# 크기가 NxM 이고 0으로 초기화된 2차원 배열
+
+arr2 = [[0] * m for _ in range(N)]
+
+# arr3 = [[0] * M] * N  얕은복사라서 값을 하나만 바꿔도 다 바뀐다. 쓰지마라.
+
+arr3 = [[1], [2, 3], [3, 4, 5]] # 가능하다.
+
+```
+
+```python
+# 배열의 합
+N = int(input())
+arr = [list(map(int, input().split())) for _ in range(N)]
+
+s = 0
+for i in range(N):
+    for j in range(N):
+        s += arr[i][j]
+print(s)
+
+# 3
+# 1 2 3
+# 4 5 6
+# 7 8 9
+
+# 45
+```
+
+```python
+# 최대행의 합
+# 3
+# 1 2 3
+# 4 5 6
+# 7 8 9
+
+N = int(input())
+arr = [list(map(int, input().split())) for _ in range(N)]
+
+maxV = 0 # 최대 행의 합
+for i in range(N):
+    rs = 0 # 행의 합
+    for j in range(N): # i행의 j열에 접근
+        rs += arr[i][j]
+    if maxV < rs:
+        maxV = rs
+
+print(maxV)
+```
+
+```python
+# 대각선
+
+# 왼쪽위에서 오른쪽아래로 대각선
+N = int(input())
+arr = [list(map(int, input().split())) for _ in range(N)]
+
+s = 0
+for i in range(N):
+    for j in range(N):
+        if i == j:
+            s += arr[i][j]
+
+s = 0
+for i in range(N):
+    s += arr[i][i]
+
+# 오른쪽위에서 왼쪽아래로 대각선
+
+s = 0
+for i in range(N):
+    s += arr[i][N-1-i]
+
+# 대각선 둘다
+# 둘다일 경우에는 둘 다 더해서 제일 가운데 값을 빼준다.
+# 가운데 값(홀수)은 N이 3일경우 [1, 1], 5일경우 [2, 2]이므로 3//2, 5//2로 구한다.
+s = 0
+for i in range(N)
+```
+
+```python
+# 대각선의 양쪽 합 중 더 큰 값 구하기
+N = int(input())
+arr = [list(map(int, input().split())) for _ in range(N)]
+
+s1 = 0
+s2 = 0
+for i in range(N):
+    for j in range(N):
+        if i > j:
+            s1 += arr[i][j]
+        elif i < j:
+            s2 += arr[i][j]
+
+# 다른 방법
+
+s1 = 0
+s2 = 0
+for i in range(N):
+    for j in range(i+1, N):
+        s2 += arr[i][j]
+        s1 += arr[j][i]
+
+```
+
+```python
+# 사선의 합
+
+# 2 * N -1 만큼 만들어 주면 된다.
+
+N = int(input())
+arr = [list(map(int, input().split())) for _ in range(N)]
+
+s = [0] * (2*N-1)
+for i in range(N):
+    for j in range(N):
+        s[i+j] += arr[i][j]
+
+print(s)
+```
