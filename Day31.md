@@ -84,7 +84,7 @@ if top > -1:    # pop()
 
 ```python
 stackSize = 10
-stack [0] * stackSize
+stack = [0] * stackSize
 top = -1
 
 top += 1    # push(1)
@@ -204,4 +204,189 @@ def fibo1(n):
     return memo[n]
 
 memo = [0, 1]
+```
+
+- 팩토리얼
+
+```python
+def f(n): # 팩토리얼 n! 1! = 1
+    if n <= 1: # 1 이하로 하지 않는다면 0이 들어가므로 에러
+        return 1
+    else:
+        return n * f(n-1)
+
+for i in range(21):
+    print(i, f(i))
+```
+
+- 피보나치
+
+```python
+def fibo(n):
+    if n < 2:
+        return n
+    else:
+        return fibo(n-1) + fibo(n-2)
+
+for i in range(21):
+    print(i, fibo(i))
+```
+
+```python
+def fibo(n):
+    if memo[n] == -1:
+        memo[n] = fibo(n-1) + fibo(n-2)
+    return memo[n]
+
+memo = [-1] * 101
+memo[0] = 0
+memo[1] = 1
+for i in range(101):
+    print(i, fibo(i)) # 위의 식보다 더 빠름
+```
+
+> DP(Dynamic Programming)
+
+- 동적 계획 알고리즘은 그리디 알고리즘과 같이 최적화 문제를 해결하는 알고리즘
+- 입력 크기가 작은 부분 문제들을 모두 해결하고 그 해들을 이용하여 보다 큰 크기의 부분 문제들 해결. 최종적으로 원래 주어진 입력의 문제를 해결하는 알고리즘
+
+- 피보나치 수 DP 적용 알고리즘
+
+```python
+def fibo_dp(n):
+    table[0] = 0
+    table[1] = 1
+    for i in range(2, n+1):
+        table [i] = table[i-1] + table[i-2]
+    return
+
+table = [0] * 101
+fibo_dp(100)
+
+t = int(input())
+for tc in range(1, t+1):
+    n = int(input())
+    print(f'#{tc} {table[n]}')
+```
+
+```python
+a = 0
+b = 1
+n = 20
+for _ in range(n-1):
+    a, b = b, a + b
+```
+
+- 피보나치 수 DP 적용 알고리즘
+
+```python
+def fibo2(n) :
+    f = [0, 1]
+
+    for i in range(2, n+1):
+        f.append(f[i-1] + f[i-2])
+
+    return f[n]
+```
+
+- DP의 구현 방식
+
+  - recursive 방식 : fib1()
+  - iterative 방식 : fib2()
+
+- memoization을 재귀적 구조에 사용하는 것보다 반복적 구조로 DP를 구현한 것이 성능 면에서 보다 효율적
+- 재귀적 구조는 내부에 시스템 호출 스택을 사용하는 오버헤드가 발생하기 때문
+
+> DPS(깊이우선탐색)
+
+- 비선형구조인 그래프 구조는 그래프로 표현된 모든 자료를 빠짐없이 검색하는 것이 중요
+- 두가지 방법
+
+  - 깊이 우선 탐색(Depth First Search, DFS)
+  - 너비 우선 탐색(Breadth First Search, BFS)
+
+- 시작 정점의 한 방향으로 깊이 탐색해 가다가 갈 곳이 없으면 가장 마지막 정점으로 되돌아와서 탐색 반복. 결국 모든 정점 방문.
+- 가장 마지막 정점으로 되돌아가서 탐색을 반복해야 하므로 후입선출 구조의 스택 사용
+
+> DFS 알고리즘
+
+1. 시작 정점 v를 결정하여 방문한다.
+2. 정점 v에 인접한 정점 중
+   1. 방문하지 않은 정점 w가 있으면, 정점v를 스택에 push 정점 w를 방문. 그리고 w를 v로하여 다시 2 반복
+   2. 방문하지 않은 정점이 없으면, 탐색의 방향을 바꾸기 위해서 스택을 pop하여 받은 가장 마지막 방문 정점을 v로하여 다시 2 반복
+3. 스택이 공백이 될 때 까지 2 반복
+
+> DFS 예
+
+```python
+# A~G -> 0~6
+adjList = [
+    [1, 2],     # 0
+    [0, 3, 4],  # 1
+    [0, 4],     # 2
+    [1, 5],     # 3
+    [1, 2, 5],  # 4
+    [3, 4, 6],  # 5
+    [5]]        # 6
+
+def dfs(v, N):
+    visited = [0] * N   # visited 생성
+    stack = [0] * N     # stack 생성
+    top = -1
+    print(v)            # 방문
+    visited[v] = 1      # 시작점 방문 표시
+    while True:
+        for w in adjList[v]:    # if (v의 인접 정점 중 방문 안 한 정점 w가 있으면)
+            if visited[w] == 0: # push(v);
+                top += 1
+                stack[top] = v  # v <- w; (w에 방문)
+                v = w           # visited[w] <- true;
+                print(v)        # 방문
+                visited[w] = 1
+
+                break
+        else:                   # w가 없으면
+            if top != -1:       # 스택이 비어있지 않은 경우
+                v = stack[top]  # pop
+                top -= 1
+            else:               # 스택이 비어 있으면
+                break
+N = 7
+visited = [0] * N # visited 생성 visited : [1, 1, 1, 1, 1, 1, 1]
+stack = [0] * N   # stack 생성 stack : [1, 0, 2, 4, 5, 0, 0]
+dfs(1, N)
+print()
+```
+
+```python
+# 0번부터 V번까지, E개의 간선
+7 8
+0 1
+0 2
+1 3
+1 4
+2 4
+3 5
+4 5
+5 6
+
+def dfs(v):
+    print(v)        # v 방문
+    visited[v] = 1
+    for w in adjList[v]:
+        if visited[w] == 0: # 방문하지 않은 w
+            dfs(w)
+
+V, E = map(int, input().split())
+N = V + 1
+adjList = [[] for _ in range(N)]
+for _ in range(E):
+    a, b = map(int, input().split())
+    adjList[a].append(b)
+    adjList[b].append(a)
+
+visited = [0] * N       # visited 생성
+stack = [0] * N         # stack 생성
+dfs(0)
+
 ```
