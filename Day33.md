@@ -23,9 +23,9 @@ def dfs(x, y):
         print(road)
         break
 
-        dfs(nx, ny) # 다음 칸 이동
+      dfs(nx, ny) # 다음 칸 이동
 
-        road.pop() # 되돌아가면서 이전 경로 삭제
+      road.pop() # 되돌아가면서 이전 경로 삭제
 
 n, m = map(int, input().split())
 maze = [list(map(int, input().split())) for _ in range(n)]
