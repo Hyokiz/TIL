@@ -6,6 +6,7 @@
 visited = [[False] * m for _ in range(n)]
 # 2차원 배열로 선언한다.
 ```
+
 - 인접 정점은 델타값을 이용한 상하좌우 이동으로 갈 수 있다.
 
 ```python
@@ -38,7 +39,7 @@ dfs(0, 0) # (0, 0) 정점에서 시작
 ```
 
 - 파이썬에서는 재귀가 1000번까지만 제한이 있어서 임의로 늘릴 수 있다.
-  
+
 ```python
 import sys
 sys.setrecursionlimit(100000)
