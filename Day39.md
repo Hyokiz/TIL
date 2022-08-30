@@ -178,3 +178,25 @@
 3. Tags
 
 4. Comments
+
+## Template inheritance
+
+## Sending and Retrieving form data
+
+- 웹은 기본적으로 클라이언트 - 서버 아키텍처를 사용
+
+- HTTP 메서드
+  - GET : 조회
+  - POST : 생성
+  - PUT : 변경
+  - DELETE : 삭제
+
+## Django URLs
+
+> Trailing Slashes
+
+- Django는 URL 끝에 /가 없다면 자동으로 붙여주는 것이 기본설정
+  - 그래서 모든 주소가 '/'로 끝나도록 구성 되어있음
+
+## Variable routing
+
