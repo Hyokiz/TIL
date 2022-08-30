@@ -242,7 +242,12 @@
 
 ## 20220830
 
-- add Day 38 TIL
+- add Day38 TIL
 
 ---
 
+## 20220831
+
+- add Day39 TIL
+
+---
