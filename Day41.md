@@ -17,3 +17,23 @@
     - "new" view function
   - 사용자가 입력한 데이터를 전송 받아 DB에 저장하는 함수 1개
     - "create" view function
+
+---
+
+## 복습
+
+> Django Framework
+
+- 사용자 > 요청 > urls > view > model > DB
+- DB > model > view > template > 응답 > 사용자
+- model의 class 1개가 DB table1개와 mapping (설계도 작성) : ORM을 통해 상호작용
+  1. models.py 에 클래스 작성
+  2. 마이그레이션 파일 생성 > 설계도 (make migrations)
+  3. DB반영(migrate)
+
+> CRUD 4가지
+
+- Create
+- Read
+- Update
+- Delete
