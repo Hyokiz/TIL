@@ -419,5 +419,3 @@ INSTALLED_APPS = [
 > \_\_str\_\_()
 
 - 표준 파이썬 메서드인 str()을 정의하여 각각의 object가 사람이 읽을 수 있는 문자열을 반환하도록 할 수 있음
-
-## CRUD with view functions
