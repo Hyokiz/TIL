@@ -149,3 +149,117 @@ print(greeting()) # 안녕하세요
 
 - 통과하지 못하면
   - 작성 페이지로 리다이렉트
+
+> is_valid() method
+
+- 유효성 검사를 실행하고, 데이터가 유효한지 여부를 boolean 으로 반환
+- 개발자의 편의를 도움
+
+> The save() method
+
+- form 인스턴스에 바인딩된 데이터를 통해 데이터베이스 객체를 만들고 저장
+- ModelForm의 하위 클래스는 키워드 인자 instance 여부를 통해 생성할 지 수정할 지 결정
+  - 제공되지 않은 경우 지정된 모델의 새 인스턴스를 만듦(CREATE)
+  - 제공되면 해당 인스턴스 수정(UPDATE)
+
+> form 인스턴스의 errors 속성
+
+- is_valid()의 반환값이 False인 경우 form 인스턴스의 errors 속성에 값이 작성되는데, 유효성 검증을 실패한 원인이 딕셔너리 형태로 저장됨.
+
+> UPDATE
+
+- ModelForm의 인자 instance는 수정 대상이 되는 객체(기존 객체)를 지정
+
+1. request.POST
+   - 사용자가 form 을 통해 전송한 데이터
+2. instance
+   - 수정이 되는 대상
+
+> Form 과 ModelForm
+
+- ModelForm이 Form 보다 더 좋은 것이 아니라 각자 역할이 다른 것.
+
+- Form
+
+  - 사용자로부터 받는 데이터가 DB와 연관되어 있지 않은 경우 사용
+  - DB에 영향을 미치지 않고 단순 데이터만 사용되는 경우
+  - ex. 로그인(인증 과정에서만 사용, 별도로 DB저장 X)
+
+- ModelForm
+  - 사용자로부터 받는 데이터가 DB와 연관되어 있는 경우에 사용
+  - 데이터의 유효성 검사가 끝나면 데이터를 각각 어떤 레코드에 맵핑해야 할지 이미 알고있기 때문에 곧바로 save() 호출이 가능
+
+---
+
+## Widgets 활용하기
+
+- 위젯은 대단한 역할이 아닌, input 태그의 표현에 관련된 것만 컨트롤함.
+
+## Handling HTTP requests
+
+> 개요
+
+- "HTTPS requests 처리에 따른 view 함수 구조 변화"
+- new-create, edit-update의 view 함수 역할을 잘 살펴보면 하나의 공통점과 차이점이 있음
+- 공통점
+
+  - new-create는 모두 CREATE 로직을 구현하기 위한 공통 목적
+  - edit-update는 모두 UPDATE 로직을 구현하기 위한 공통 목적
+
+- 차이점
+
+  - new와 edit는 GET 요청에 대한 처리만을 >> 페이지 렌더링
+  - create와 update는 POST 요청에 대한 처리만을 진행 >> DB 조작
+
+- 이 공통점과 차이점을 기반으로 하나의 view 함수에서 method 에 따라 로직이 분리되도록 변경
+
+## View decorators
+
+> 개요
+
+- View decoratoss를 사용해 view 함수를 단단하게 만들기
+
+> 데코레이터
+
+- 기존에 작성된 함수에 기능을 추가하고 싶을 때, 해당 함수를 수정하지 않고 기능을 추가해주는 함수
+- Django 는 다양한 HTTP 기능을 지원하기 위해 view 함수에 적용할 수 있는 여러 데코레이터를 제공
+
+## Allowed HTTP methods
+
+> 개요
+
+- Django.views.decorators.http 의 데코레이터를 사용하여 요청 메서드를 기반으로 접근을 제한할 수 있음
+- 일치하지 않는 메서드 요청이라면 405 Method Not Allowed를 반환
+- 메서드 목록
+  1. require_http_methods()
+  2. require_POST()
+  3. require_safe()
+
+> 405 method not allowed
+
+- 요청 방법이 서버에게 전달되었으나 사용 불가능한 상태
+
+> require_http_methods()
+
+- View 함수가 특정한 요청 method만 허용하도록 하는 데코레이터
+
+> require_POST()
+
+- View 함수가 POST 요청 method만 허용하도록 하는 데코레이터
+
+> require_safe()
+
+- require_GET 이 있지만 Django에서는 require_safe를 사용하는 것을 권장
+
+## 마무리
+
+> 마무리
+
+- Django Form Class
+
+  - Django 프로젝트의 주요 유효성 검사 도구
+  - 공격 및 데이터 손상에 대한 중요한 방어 수단
+  - 유효성 검사에 대해 개발자에게 강력한 편의를 제공
+
+- View 함수 구조 변화
+  - HTTP requests 처리에 따른 구조 변화
