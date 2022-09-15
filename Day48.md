@@ -194,5 +194,3 @@ while heap:
   print(heappop(heap))
 
 ```
-
-
