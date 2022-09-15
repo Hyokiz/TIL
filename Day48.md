@@ -171,3 +171,26 @@ print()
   - 키값이 가장 작은 노드를 찾기 위한 완전 이진 트리
 
 > 힙 삽입, 삭제 잘 보기
+
+1. 마지막 위치에 새 노드 삽입
+2. 최소 / 최대 힙 만족할때까지 swap
+
+- 파이썬은 heapq로 쉽게 구현할 수 있다.
+
+```py
+from heapq import heappush, heappop
+
+heap = []
+
+heappush(heap, 2)
+heappush(heap, 5)
+heappush(heap, 7)
+heappush(heap, 3)
+heappush(heap, 4)
+heappush(heap, 6)
+print(heap)
+
+while heap:
+  print(heappop(heap))
+
+```
