@@ -186,3 +186,130 @@ class Article(models.Model):
 - ORM
 
 ## ORM
+
+- 장점
+
+  - SQL을 몰라도 객체지향 언어로 DB 조작 가능
+  - 객체 지향적 접근으로 인한 높은 생산성
+
+- 단점
+  - ORM 만으로 완전한 서비스 구현 힘듦
+
+> ORM을 사용하는 이유
+
+- 생산성
+
+> Model 변경 사항 반영하기
+
+- models.py에 변경사항이 생겼을 때
+- 추가 모델 필드 작성 후 한번더 makemigrations
+
+```py
+# articles/models.py
+
+class Article(models.Model):
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+```
+
+- python manage.py makemigrations
+- 새로운 설계도를 생성했기 때문에 DB와 동기화
+  - python manage.py migrate
+
+> 반드시 기억해야 할 migration 3단ㄷ계
+
+1. models.py에서 변경 사항 발생
+2. migrations 파일 생성
+   - makemigrations
+3. DB반영
+   - migrate
+
+> DateTimeField()
+
+- Python의 datetime.datetime 인스턴스로 표시되는 날짜 및 시간을 값으로 사용하는 필드
+- DateField를 상속받는 클래스
+- 선택 인자
+
+  1. auto_now_add
+
+     - 최초 생성 일자
+     - 최초만 현재 날짜와 시간으로 갱신
+
+  2. auto_now
+     - 최종 수정 일자
+     - save를 할때마다 갱신
+
+> Model 정리
+
+- 웹 애플리케이션의 데이터를 구조화하고 조작하기 위한 도구
+
+## QuerySet API 사전준비
+
+> 외부 라이브러리 설치
+
+- pip install ipython
+- pip install django-extensions
+
+```py
+# settings.py
+
+INSTALLED_APPS[
+    'articles',
+    'django_extensions',
+    ...,
+]
+```
+
+- 패키지 목록 업데이트
+  - pip freeze > requirements.txt
+
+> IPython and django-extensions
+
+- IPython
+
+  - 파이썬 기본 쉘보다 더 강력한 파이썬 쉘
+
+- django-extensions
+  - Django 확장 프로그램 모음
+  - shell_plus, graph model 등 다양한 확장 기능 제공
+
+> Shell
+
+- 운영체제 상 다양한 기능과 서비스를 구현하는 인터페이스를 제공하는 프로그램
+- 셸은 사용자와 운영 체제의 내부사이의 인터페이스를 감싸는 층
+
+> Python Shell
+
+- 파이썬 코드를 실행해주는 인터프리터
+
+  - 인터프리터 : 코드를 한 줄 씩 읽어 내려가며 실행하는 프로그램
+
+- 인터렉티브 or 대화형 shell
+
+> Django shell
+
+- ORM 관련 구문 연습을 위해 파이썬 쉘 사용
+- 일반 파이썬 쉘로는 장고 프로젝트 환경에 영향 X
+- python manage.py shell_plus
+
+## QuerySet API
+
+> Database API
+
+- Django가 기본적으로 ORM 제공 > DB 조작 편하게
+- Model을 만들면 Django는 객체들을 만들고 읽고 수정하고 지울 수 있는 DB API를 자동으로 만듦
+
+> Database API 구문
+
+- Article.objects.all()
+
+> "objects" manager
+
+- Django 모델이 데이터베이스 쿼리 작업을 가능하게 하는 인터페이스
+- Django는 기본적으로 모든 Django 모델 클래스에 대해 objects 라는 Manager 객체를 자동으로 추가
+- DB를 Python class로 조작할 수 있도록 여러 메서드를 제공하는 manager
+
+> Query
+
+- 데이터베이스에 특정한 데이터를 보여 달라는 요청
+  - 쿼리문을 작성한다 == 원하는 데이터를 얻기 위해 데이터베이스에 요청을 보낼 코드를 작성한다.
