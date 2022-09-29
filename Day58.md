@@ -2,7 +2,7 @@
 
 ## 최소신장트리(MST)
 
-1. 크루스칼
+> 크루스칼
 
   - 서로소 집합(Union-Find)
     - 서로소 집합 == 상호 배타 집합 == disjoint set
@@ -83,10 +83,67 @@ print(parent)
 # [0, 1, 2, 1, 3, 4, 5]
 ```
 
+> 최소 신장 트리
+
+- 그래프, 모든 노드 포함, 사이클 X
+- Greedy알고리즘(최소, 가장 싼거 고르기)
+- 사이클이 발생하지 않으면서 가장 낮은 값만 고르기
+
+```py
+def find_set(node):
+    if node != parent[node]:
+        parent[node] = find_set(parent[node])  # 경로 압축(Path compression)
+    return parent[node]
 
 
-2. 프림
+n, m = map(int, input().split())  # 정점, 간선 개수
+edges = []
+for _ in range(m):
+    s, e, w = map(int, input().split())  # 시작 정점, 도착 정점, 비용
+    edges.append((w, s, e))
 
+edges.sort()  # (중요) 최소 비용의 간선부터 차례로 검사하기 위해 비용을 기준으로 오름차순 정렬
+
+parent = list(range(n + 1))
+counts = 0  # MST의 간선 개수 (정점 - 1 개가 되면 종료를 하기 위함)
+cost = 0  # MST의 가중치 총합(== 최소 비용)
+
+for dist, x, y in edges:
+    x_root, y_root = find_set(x), find_set(y)  # x와 y의 각각 대표값
+
+    if x_root != y_root:  # 사이클이 아니면
+        parent[y_root] = x_root  # union
+        cost += dist
+        counts += 1
+
+        if counts >= n - 1:  # 간선의 최대 개수는 정점 - 1 이므로 break
+            break
+
+print(cost)
+
+# 입력
+# 7 11
+# 1 2 32
+# 1 3 31
+# 1 6 60
+# 1 7 51
+# 2 3 21
+# 3 5 46
+# 3 7 25
+# 4 5 34
+# 4 6 18
+# 5 6 40
+# 5 7 51
+
+# 출력
+# 175
+```
+
+- 크루스칼은 간선 위주로 본다.
+
+> 프림
+
+- 프림은 정점 위주로
 
 
 
