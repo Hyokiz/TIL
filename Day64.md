@@ -555,3 +555,89 @@ def likes(request, article_pk):
 
 - QuerySet에 결과가 포함되어 있으면 True, 그렇지 않으면 False
 - 특히 큰 QuerySet에 있는 특정 개체의 존재와 관련된 검색에 유용
+
+- index 템플릿에서 각 게시글에 좋아요 버튼 출력하기
+
+- 좋아요 버튼 출력 확인
+- 좋아요 버튼 클릭 후 좋아요 테이블 확인
+- 데코레이터 및 is_authenticated 추가
+
+```py
+# articles/views.py
+
+@request_POST
+def likes(request, article_pk):
+    if request.user.is_authenticated:
+        article = Article.objects.get(pk=article_pk)
+
+        if article.like_users.filter(pk=request.user.pk).exists():
+        # if request.user in article.like_users.all():
+            article.like_users.remove(request.user)
+        else:
+            article.like_users.add(request.user)
+        return redirect('articles:index')
+    return redirect('accounts:login')
+```
+
+## M:N (User-User)
+
+> 개요
+
+- User 자기 자신과의 M:N 관계 설정을 통한 팔로우 기능 구현하기
+
+## Profile
+
+> 개요
+
+- 자연스러운 follow 흐름을 위한 프로필 페이지를 먼저 작성
+
+> Profile 구현
+
+- url 및 view 함수 작성
+
+```py
+# accounts/urls.py
+
+urlpatterns = [
+    ...
+    path('profile/<username>/', views.profile, name='profile'),
+]
+
+# accounts/views.py
+
+from django.contrib.auth import get_user_model
+
+def profile(request, username):
+    User = get_user_model()
+    person = User.objects.get(username=username)
+    context = {
+        'person': person,
+    }
+    return render(request, 'accounts/profile.html', context)
+```
+
+- profile 템플릿 작성
+- profile 템플릿으로 이동할 수 있는 하이퍼 링크 작성
+- profile 템플릿으로 이동할 수 있는 하이퍼 링크 출력 확인
+
+## Follow
+
+> 모델 관계 설정
+
+- ManyToManyField 작성 및 Migration 진행
+
+```py
+# accounts/models.py
+
+class User(AbstractUser):
+    followings = models.ManyToManyField('self', symmetrical=False, related_name='followers')
+```
+
+- 생성된 중개 테이블 확인
+
+> Follow 구현
+
+- url 및 view 함수 작성
+- 프로필 유저의 팔로잉, 팔로워 수 & 팔로우, 언팔로우 버튼 작성
+- 팔로우 버튼 클릭 후 팔로우 버튼 변화 및 테이블 확인
+- 데코레이터 및 is_authenticated 추가
