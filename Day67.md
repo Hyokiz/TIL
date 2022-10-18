@@ -368,3 +368,134 @@
 - 게시글 데이터 생성
 - 요청에 대한 데이터 생성 성공 시 - 201 Created 상태 코드 / 실패 시 - 400 Bad request
 
+> Raising an exception on invalid data
+
+- is_valid()는 유효성 검사 오류가 있는 경우 ValidationError 예외를 발생시키는 선택적 raise_exception 인자를 사용할 수 있음
+- 자동으로 처리, 기본적으로 HTTP 400 응답
+
+> DELETE
+
+- 게시글 데이터 삭제
+- 삭제 성공 시 204 No Content 응답
+
+> PUT
+
+- 게시글 데이터 수정
+- 수정 성공 시 200 OK 상태코드 응답
+
+## Django REST framework - N:1 Relation
+
+> 개요
+
+- N:1 관계에서의 모델 data 를 Serialization 하여 JSON으로 반환
+
+> GET - List
+
+- 댓글 데이터 목록 조회
+- Article List와 비교하며 작성
+
+> GET - Detail
+
+- 단일 댓글 데이터 조회
+- Article과 달리 같은 serializer 사용
+
+> POST
+
+- 단일 댓글 데이터 생성
+
+> Passing Additional attributes to .save()
+
+- save() 메서드는 특정 Serializer 인스턴스를 저장하는 과정에서 추가적인 데이터를 받을 수 있음
+- CommentSerializer를 통해 Serialize 되는 과정에서 Parameter로 넘어온 article_pk에 해당하는 article 객체를 추가적인 데이터를 넘겨 저장
+
+- 에러가 난다.
+
+  - CommentSerializer에서 article field 데이터 또한 사용자로부터 입력 받도록 설정되어 있기 때문
+
+> 읽기 전용 필드 설정
+
+- read_only_fields를 사용해 외래 키 필드를 읽기 전용 필드로 설정
+- 해당 필드를 유효성 검사에서 제외시키고 데이터 조회 시에는 출력
+
+> DELETE & PUT
+
+## N:1 - 역참조 데이터 조회
+
+> 개요
+
+1. 특정 게시글에 작성된 댓글 목록 출력하기
+
+   - 기존 필드 override
+
+2. 특성 게시글에 작성된 댓글의 개수 출력하기
+
+   - 새로운 필드 추가
+
+> 1. 특정 게시글에 작성된 댓글 목록 출력하기
+
+- 기존 필드 override - Article Detail
+
+  - 게시글 조회 시 해당 게시글의 댓글 목록까지 함께 출력
+  - 기존 필드를 override하거나 추가적인 필드 구성 가능
+
+1. PrimaryKeyRelatedField()
+
+   - 댓글이 있는 게시글 응답 예시
+
+- models.py에서 related_name을 통해 이름 변경 가능
+- 역참조 시 생성되는 comment_set을 override 할 수 있음
+
+2. Nested relationships
+
+- 모델 관계 상으로 참조된 대상은 참조하는 대상의 표현에 포함되거나 중첩(nested)될 수 있음
+- 이러한 중첩된 관계는 serializers를 필드로 사용하여 표현할 수 있음
+- 두 클래스의 상/하 위치를 변경해야 함
+
+> 2. 특정 게시글에 작성된 댓글의 개수 출력하기
+
+- 새로운 필드 추가 - Article Detail
+
+  - 게시글 조회 시 해당 게시글의 댓글 개수까지 함께 출력하기
+
+- source
+
+  - serializers field's argument
+  - 필드를 채우는 데 사용할 속성의 이름
+  - 점 표기법(dotted notation)을 사용하여 속성을 탐색할 수 있음
+
+> 읽기 전용 필드 지정 이슈
+
+- 특정 필드를 override 혹은 추가한 경우 read_only_fields 가 동작하지 않으니 주의
+
+## Django shortcuts functions
+
+> 개요
+
+- django.shortcuts 패키지는 개발에 도움이 될 수 있는 여러 함수와 클래스 제공
+- 제공되는 shortcuts 목록
+
+  - render(), redirect(), get_object_or_404(), get_list_or_404()
+
+> get_object_or_404()
+
+- 모델 manager objects에서 get()을 호출하지만, 해당 객체가 없을 때 기존 DoesNotExist 예외 대신 HTTP404를 raise
+
+> get_list_or_404()
+
+- 모델 manager objects에서 filter()의 결과를 반환하고 해당 객체 목록이 없을 땐 HTTP 404를 raise
+
+> 왜 사용해야할까?
+
+- 올바른 에러 전달
+
+---
+
+## 마무리
+
+- REST API
+- Response JSON
+- Django REST framework - Single Moel
+- Django REST framework - N:1 Relation
+
+
+
