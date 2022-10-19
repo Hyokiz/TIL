@@ -562,3 +562,335 @@ console.log(result); // Nope
     - 조건이 많아질 경우 if문보다 가독성이 나을 수 있음
 
 > if statement
+
+- if, else if, else
+
+  - 조건은 소괄호(condition)안에 작성
+  - 실행할 코드는 중괄호{}안에 작성
+  - 블록 스코프 생성
+
+```js
+const name = "manager";
+
+if (name === "admin") {
+  console.log("관리자님 환영합니다.");
+} else if (name === "manager") {
+  console.log("매니저님 환영합니다.");
+} else {
+  console.log("${name}님 환영합니다.");
+}
+```
+
+> switch statement
+
+- 표현식(expression)의 결과값을 이용한 조건문
+- 표현식의 결과값과 case문의 오른쪽 값을 비교
+- break 및 default 문은 [선택적]으로 사용 가능
+- break 문이 없는 경우 break 문을 만나거나 default 문을 실행할 때까지 다음 조건문 실행
+- 블록 스코프 생성
+
+```js
+switch(expression) {
+  case 'first value': {
+    // do something
+    [break]
+  }
+  case 'second value': {
+    // do something
+    [break]
+  }
+  [default : {
+    // do something
+  }]
+}
+```
+
+> switch statement
+
+- 이 경우 모든 console이 출력 (Fall-through)
+
+```js
+const name = "홍길동";
+
+switch (name) {
+  case "홍길동": {
+    console.log("홍길동님 환영합니다.");
+  }
+  case "manager": {
+    console.log("매니저님 환영합니다.");
+  }
+  default: {
+    console.log("${name}님 환영합니다.");
+  }
+}
+```
+
+- break를 작성하면 의도한대로 동작
+
+```js
+const name = "홍길동";
+
+switch (name) {
+  case "홍길동": {
+    console.log("홍길동님 환영합니다.");
+    break;
+  }
+  case "manager": {
+    console.log("매니저님 환영합니다.");
+    break;
+  }
+  default: {
+    console.log("${name}님 환영합니다.");
+  }
+}
+```
+
+> if / switch
+
+- 조건이 많은 경우 switch 문을 통해 가독성 향상을 기대할 수 있음
+- 일반적으로 중첩 else if 문은 유지보수하기 힘들다.
+
+```js
+const numOne = 5;
+const numTwo = 10;
+let operator = "+";
+
+if (operator === "+") {
+  console.log(numOne + numTwo);
+} else if (operator === "-") {
+  console.log(numOne - numTwo);
+} else if (operator === "*") {
+  console.log(numOne * numTwo);
+} else if (operator === "/") {
+  console.log(numOne / numTwo);
+} else {
+  console.log("유효하지 않은 연산자입니다.");
+}
+```
+
+```js
+const numOne = 5;
+const numTwo = 10;
+let operator = "+";
+
+switch (operator) {
+  case "+": {
+    console.log(numOne + numTwo);
+    break;
+  }
+  case "-": {
+    console.log(numOne - numTwo);
+    break;
+  }
+  case "*": {
+    console.log(numOne * numTwo);
+    break;
+  }
+  case "/": {
+    console.log(numOne / numTwo);
+    break;
+  }
+  default: {
+    console.log("유효하지 않은 연산자입니다.");
+  }
+}
+```
+
+## 반복문
+
+> 반복문 종류
+
+- while
+- for
+- for...in
+- for...of
+
+> while
+
+- 조건문이 참이김나 하면 문장을 계속해서 수행
+
+```js
+while (조건문) {
+  // do something
+}
+```
+
+- 예시
+
+```js
+let i = 0;
+
+while (i < 6) {
+  console.log(i);
+  i += 1;
+}
+
+// 0, 1, 2, 3, 4, 5
+```
+
+> for
+
+- 특정한 조건이 거짓으로 판별될 때까지 반복
+
+```js
+for ([초기문]; [조건문]; [증감문]) {
+  // do something
+}
+```
+
+- 예시
+
+```js
+for (let i = 0; i < 6; i++) {
+  console.log(i);
+}
+
+// 0, 1, 2, 3, 4, 5
+```
+
+> for 동작 예시
+
+```js
+for (let i = 0; i < 6; i++) {
+  console.log(i); // 0, 1, 2, 3, 4, 5
+}
+```
+
+```js
+// 1. 반복문 진입 및 변수 i 선언
+for (let i = 0;)
+```
+
+```js
+// 2. 조건문 평가 후 코드 블럭 실행
+for (i < 6){
+  console.log(i) // 0
+}
+```
+
+```js
+// 3. 코드 블록 실행 이후 i 값 증가
+for (i ++)
+```
+
+> for ... in
+
+- 객체(object)의 속성을 순회할 때 사용
+- 배열도 순회 가능하나, 인덱스 순으로 순회한다는 보장이 없으므로 권장하지 않음
+
+```js
+for (variable in object) {
+  statements;
+}
+```
+
+- 예시
+
+```js
+const fruits = { a: "apple", b: "banana" };
+
+for (const key in fruits) {
+  console.log(key); // a, b
+  console.log(fruits[key]); // apple, banana
+}
+```
+
+> for ... of
+
+- 반복 가능한 객체를 순회할 때 사용
+- 반복 가능한(iterable) 객체의 종류 : Array, Set, String 등
+
+```js
+for (variable of object) {
+  statements;
+}
+```
+
+- 예시
+
+```js
+const numbers = [0, 1, 2, 3];
+
+for (const number of numbers) {
+  console.log(number); // 0, 1, 2, 3
+}
+```
+
+> for ... in 과 for ... of 차이
+
+- for ... in 은 속성 이름을 통해 반복
+- for ... of 는 속성 값을 통해 반복
+
+```js
+const arr = [3, 5, 7];
+
+for (const i in arr) {
+  console.log(i); // 0 1 2
+}
+// 이것은 인덱스가 아님.
+// 배열은 내부적으로 object이다.
+// {0: 3, 1: 5, 2: 7} 이렇게 되어있다.
+
+for (const i of arr) {
+  console.log(i); // 3 5 7
+}
+```
+
+- 다른 예
+
+```js
+// array
+
+const fruits = ["딸기", "바나나", "메론"];
+
+for (let fruit in fruits) {
+  console.log(fruit); // 0, 1, 2
+}
+
+// object
+const capitals = {
+  Korea: "서울",
+  France: "파리",
+  USA: "워싱턴 D.C.",
+};
+
+for (let capital in capitals) {
+  console.log(capital); // Korea, France, USA
+}
+```
+
+```js
+// array
+const fruits = ["딸기", "바나나", "메론"];
+
+for (let fruit of fruits) {
+  console.log(fruit); // 딸기, 바나나, 메론
+}
+
+// object
+const capitals = {
+  Korea: "서울",
+  France: "파리",
+  USA: "워싱턴 D.C.",
+};
+
+for (let capital of capitals) {
+  console.log(capital);
+  // Uncaught TypeError: capitals is not iterable
+}
+```
+
+> for ... in, for ... of 와 const
+
+- 일반적인 for 문 for (let i = 0; i < arr.length; i++) {...}의 경우에는 최초 정의한 i를 재할당 하면서 사용하기 때문에 const 를 사용하면 에러 발생
+- 다만 for ... in, for ... of 의 경우에는 재할당이 아니라, 매 반복 시 해당 변수를 새로 정의하여 사용하므로 에러가 발생하지 않음
+
+> 조건문과 반복문 정리
+
+- 키워드 // 종류 // 연관 키워드 // 스코프
+- if // 조건문 // - // 블록 스코프
+- switch // 조건문 // case, break, default // 블록 스코프
+- while // 반복문 // break, continue // 블록 스코프
+- for // 반복문 // break, continue // 블록 스코프
+- for ... in // 반복문 // 객체 순회 // 블록 스코프
+- for ... of // 반복문 // iterable 순회 // 블록 스코프
