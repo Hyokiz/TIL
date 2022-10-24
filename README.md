@@ -443,3 +443,8 @@
 - add Day71 TIL
 
 ---
+
+# 20221024
+
+- add Day72 TIL
+
