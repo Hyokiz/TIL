@@ -116,3 +116,42 @@ const obj1 = {
 
 obj1.outer() // this -> obj1
 ```
+
+> 예제
+
+```js
+const test = {
+  a: "hello",
+  b: "world",
+}
+
+const obj1 = {
+  outer: function() {
+    console.log(this) // test -> bind(test) 가 걸려있기 때문에 test
+  }
+
+  const innerFunc = () => {
+    console.log(this) // test -> 상위의 this를 가리키고 있는데 상위가 test를 가리키고 있으므로 똑같이 test 
+  innerFunc() 
+  }.bind(test)
+}
+
+obj1.outer()
+```
+
+5. 콜백함수에서의 this는 각각 다름
+
+- 콜백함수 : 제어권을 넘길 때 쓰는 함수
+- 일반적으로 콜백 함수도 함수 호출이므로 this는 전역 객체
+- addEventListener에서 콜백 함수 안의 this는 이벤트가 발생하는 html 요소
+- 콜백 함수를 제어하는 함수에서 this를 명시적으로 지정 가능한 것도 있음 (ex. Array Helper Method)
+
+```js
+const func = function () {
+  console.log("hello!")
+}
+func() // hello!
+
+setTimeout(func, 5000) // 시간 지연
+
+```
