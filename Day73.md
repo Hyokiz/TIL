@@ -153,5 +153,18 @@ const func = function () {
 func() // hello!
 
 setTimeout(func, 5000) // 시간 지연
-
 ```
+
+## 정리
+
+> this 가 가리키는 것
+
+- 함수로 호출하면 전역 객체, 메서드로 호출하면 .(dot)앞의 객체
+- 화살표 함수에서는 스코프 체인 상 가장 가까운 상위의 this
+- bind로 this를 명시적으로 지정 가능
+- 혹은 변수에 임의로 객체를 할당하여 this 키워드 대신 해당 변수를 사용하여 명시 지정 가능
+- 콜백 함수에서의 this 는 다름
+
+  - 일반적으로 콜백 함수도 함수 호출이므로 this는 전역 객체
+  - addEventListener에서 콜백 함수 안의 this 는 이벤트가 발생하는 html 요소
+  - 콜백 함수를 제어하는 함수에서 this를 명시적으로 지정 가능한 것도 있음(ex. Array Helper Method)
