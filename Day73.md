@@ -1,0 +1,118 @@
+# 20221025 TIL
+
+## DOM
+
+- Tree 구조로 이루어져 있는 문서
+- 장고의 경우 새로고침을 해야 바뀐다.
+- javascript의 경우 DOM의 api 속성을 바꿀 수 있다.
+
+> DOM API
+
+- DOM을 조작할 수 있는 메뉴판이다.
+
+## THIS 
+
+- window는 전역 객체이다.
+- 객체는 key, value로 이루어져 있다.
+
+```js
+const func = function () {
+  console.log(this)
+}
+
+const obj = {
+  method : func,
+}
+
+func() // window
+obj.method() // {method: f}
+obj['method']() // {method: f}
+```
+
+> this
+
+1. 전역에서는 window를 가리킨다.
+2. 함수에서는 다음과 같다.
+
+   - 함수로 호출할때는 window를 가리킨다.
+   - 메서드로 호출할 때는 앞 객체를 가리킨다.
+
+> 심화
+
+```js
+const obj = {
+  methodA: function () {
+    console.log(this)
+  },
+  innerObj: {
+    methodB : function () {
+      console.log(this)
+    }
+  }
+}
+
+obj.methodA() // {innerObj: {_}, methodA: f}
+obj.innerObj.methodB() // {methodB: f}
+```
+
+```js
+const obj1 = {
+  outer: function () {
+    console.log(this) // obj1 {outer: f}
+
+    const innerFunc = function () {
+      console.log(this) // window
+    }
+    innerFunc()
+
+    const obj2 = {
+      innermethod: innerFunc,
+    }
+    obj2.innerMethod() // obj2 {innerMethod: f}
+  }
+}
+
+obj1.outer()
+```
+
+- ES6 이후로
+
+3. bind를 통한 명시
+
+```js
+const test = {
+  a: 1,
+}
+
+const obj1 = {
+  outer: function () {
+    console.log(this)
+  }
+
+  const innerFunc = function () {
+    console.log(this)
+  }.bind(test)
+  innerFunc() // this -> test
+}
+
+obj1.outer() // this -> obj1
+```
+
+4. 화살표 함수
+
+- 상위의 this를 자동적으로 가리키게 됨
+- 호출 기준이 아닌 선언 기준
+
+```js
+const obj1 = {
+  outer: function () {
+    console.log(this)
+  }
+  const innerFunc = () => {
+    console.log(this)
+  }
+  innerFunc() // this -> obj1
+}
+
+obj1.outer() // this -> obj1
+```
