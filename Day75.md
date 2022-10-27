@@ -161,3 +161,17 @@ get (`${url}/posts/1`)
 
 </html>
 ```
+
+## AJAX
+
+> 개요
+
+- 비동기
+- DOM Tree를 조작 할 수 있는 언어 -> JavaScript
+
+- 부분을 바꾸기 위해서
+
+  - JS요청 -> XMLHttpRequest -> Promise -> Axios(비동기요청)
+
+- 여기서 부분만 바꾸는 것이 AJAX이다.
+
