@@ -164,7 +164,7 @@ get (`${url}/posts/1`)
 
 ## AJAX
 
-> 개요
+> 수업 정리
 
 - 비동기
 - DOM Tree를 조작 할 수 있는 언어 -> JavaScript
@@ -174,4 +174,79 @@ get (`${url}/posts/1`)
   - JS요청 -> XMLHttpRequest -> Promise -> Axios(비동기요청)
 
 - 여기서 부분만 바꾸는 것이 AJAX이다.
+
+--- 
+
+# AJAX
+
+> AJAX란?
+
+- 비동기 통신을 이용하면 화면 전체를 새로고침 하지 않아도 서버로 요청을 보내고, 데이터를 받아 화면의 일부분만 업데이트 가능
+- 이러한 비동기 통신 웹 개발 기술을 Asynchronous Javascript And XML(AJAX)라고 함
+- AJAX의 특징
+
+  1. 페이지 새로고침 없이 서버에 요청
+  2. 서버로부터 응답(데이터)를 받아 작업을 수행
+
+- 이러한 비동기 웹 통신을 위한 라이브러리 중 하나가 Axios
+
+## 비동기(Async) 적용하기
+
+> data-* attributes
+
+- 사용자 지정 데이터 특성을 만들어 임의의 데이터를 HTML과 DOM 사이에서 교환할 수 있는 방법
+- 사용 예시
+
+```html
+<div data-my-id="my-data"></div>
+<script>
+  const myId = event.target.dataset.myId
+</script>
+```
+
+- 예를 들어 data-test-value 라는 이름의 특성을 지정했다면 JavaScript에서는 element.dataset.testValue로 접근할 수 있음
+
+- 속성명 작성 시 주의사항
+
+  - 대소문자 여부에 상관없이 xml로 시작하면 안됨
+  - 세미콜론을 포함해서는 안됨
+  - 대문자를 포함해서는 안됨
+
+> XHR
+
+- XMLHttpRequest
+- AJAX 요청을 생성하는 JavaScript API
+- XHR의 메서드로 브라우저와 서버 간 네트워크 요청을 전송할 수 있음
+- Axios는 손쉽게 XHR을 보내고 응답 결과를 Promise 객체로 반환해주는 라이브러리
+
+> 팔로워 & 팔로잉 수 비동기 적용
+
+- 해당 요소를 선택할 수 있도록 span 태그와 id 속성 작성
+
+> 좋아요(like)
+
+- 좋아요 비동기 적용은 "팔로우와 동일한 흐름 + forEach() & querySelectorAll()"
+
+  - index 페이지 각 게시글에 좋아요 버튼이 있기 때문
+
+## 마무리
+
+> 왜 비동기(Asynchronous) 방식이 필요할까
+
+- human-centered design with UX
+
+  - 인간 중심으로 설계된 사용자 경험
+  - 실제 Ajax라는 용어를 처음 논문에서 사용한 사람이 강조
+
+- 동기와 비동기
+- JavaScript의 비동기 처리
+
+  - Call Stack, Web API, Task Queue, Event Loop
+
+- Axios 라이브러리
+
+  - then & catch
+
+- Async Callback과 Promise
+- AJAX
 
