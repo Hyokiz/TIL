@@ -465,8 +465,8 @@ const member3 = new Member('isaac', 21, 2022654321)
   2. 감시할 대상 data를 지정
   3. data 가 변할 시 실행 할 함수를 정의
 
-- 첫 번째 인자는 변동 전 data
-- 두 번째 인자는 변동 후 data
+- 첫 번째 인자는 변동 후 data
+- 두 번째 인자는 변동 전 data
 
 - 실행 함수를 Vue method 로 대체 가능
 
