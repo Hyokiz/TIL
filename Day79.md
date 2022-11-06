@@ -675,3 +675,329 @@ returnObject = () => ({ key: 'value' })
 
 - 배열은 키와 속성들을 담고 있는 객체
 
+---
+# 개요
+
+- 브라우저에서의 JS
+
+  - JavaScript는 웹 페이지에서 다양한 기능을 구현하는 스크립트 언어
+  - 정적인 정보만 보여주던 웹 페이지를 데이터가 주기적으로 갱신되거나, 사용자와 상호작용을 하거나, 애니메이션 등이 동작하게 하는 것을 가능하게 함
+
+  - 스크립트 언어
+
+    - 기존에 존재하는 응용 소프트웨어를 제어하는 컴퓨터 프로그래밍 언어
+
+> 웹 페이지에서의 JavaScript 
+
+- API라고 부르는 이 기능들은 JavaScript 코드에서 사용할 수 있는 것들을 더 무궁무진하게 만들어 줌
+
+  1. Browser APIs
+  2. Third Party APIs
+
+     - 브라우저에 탑재되지 않은 API
+     - 웹에서 직접 코드와 정보를 찾아야 함
+     - Google map api, kakao login api 등
+
+# DOM
+
+> Browser APIs
+
+- 웹 브라우저에 내장된 API
+- JavaScript로 Browser API들을 사용해서 여러 가지 기능을 사용할 수 있음
+- 종류
+
+  - DOM
+  - Geolocation API
+  - WebGL 등
+
+> 브라우저가 웹 페이지를 불러오는 과정
+
+- 웹 페이지를 부라우저로 불러오면, 브라우저는 코드(HTML, CSS, JavaScript)를 실행 환경에서 실행
+- JavaScript는 DOM API를 통해 동적으로 수정
+
+> DOM
+
+- 문서의 구조화된 표현을 제공하며 프로그래밍 언어가 DOM 구조에 접근할 수 있는 방법 제공
+
+  - 문서구조, 스타일, 내용 등 쉽게 변경할 수 있게 도움
+  - HTML/CSS 조작 가능
+
+- HTML 문서를 구조화하여 각 요소를 객체(object)로 취급
+- 단순한 속성 접근, 메서드 활용 뿐만 아니라 프로그래밍 언어적 특성을 활용한 조작 가능
+
+> DOM에 접근하기
+
+- 모든 웹 브라우저는 스크립트 언어가 손쉽게 웹 페이지의 요소에 접근할 수 있도록 만들기 위해 항상 DOM 구조 사용
+- 우리는 DOM의 주요 객체들을 활용하여 문서를 조작하거나 특정 요소들을 얻을 수 있음
+
+> DOM의 주요 객체
+
+- window
+- document
+- navigator, location, history, screen 등
+
+> window object
+
+- DOM을 표현하는 창
+- 가장 최상위 객체(작성 시 생략 가능)
+- 탭 기능이 있는 브라우저에서는 각각의 탭을 각각의 window 객체로 나타냄
+
+> window 의 메서드 예시
+
+- 새 탭 열기 : window.open()
+- 경고 대화 상자 표시 : window.alert()
+- 인쇄 대화 상자 표시 : window.print()
+
+> document object
+
+- 브라우저가 불러온 웹 페이지
+- 페이지 컨텐츠의 진입점 역할
+
+> document 는 window 의 속성이다.
+
+> 파싱(Parsing)
+
+- 구문 분석 ,해석
+- 브라우저가 문자열을 해석하여 DOM Tree로 만드는 과정
+
+# DOM 조작
+
+> 개요
+
+- Document가 제공하는 기능을 사용해 웹 페이지 문서 조작하기
+- DOM 조작 순서
+
+  1. 선택(Select)
+  2. 조작(Manipulation)
+
+     - 생성, 추가, 삭제 등
+
+> 선택 관련 메서드
+
+- document.querySelector()
+
+  - 제공한 선택자와 일치하는 element 한 개 선택
+  - 제공한 CSS Selector를 만족하는 첫 번째 element 객체 반환(없으면 null)
+
+- document.querySelectorAll()
+
+  - 제공한 선택자와 일치하는 여러 element를 선택
+  - 유효한 CSS selector를 인자(문자열)로 받음
+  - 제공한 CSS selector를 만족하는 NodeList를 반환
+
+> NodeList
+
+- index로만 각 항목에 접근 가능
+- 배열의 forEach 메서드 및 다양한 배열 메서드 사용 가능
+- querySelectorAll()에 의해 반환되는 NodeList는 DOM의 변경사항을 실시간으로 반영하지 않음
+
+> 조작 관련 메서드(생성)
+
+- document.createElement(tagName)
+
+  - 작성한 tagName의 HTML 요소를 생성하여 반환
+
+> 조작 관련 메서드(입력)
+
+- Node.innerText
+
+  - 사람이 읽을 수 있는 요소만 남김
+  - 최종적으로 스타일링이 적용된 모습으로 표현
+
+> 조작 관련 메서드(추가)
+
+- Node.appendChild()
+
+  - 마지막 자식으로 삽입
+  - 한번에 오직 하나의 Node만 추가 가능
+  - 추가된 Node 객체를 반환
+  - 주어진 Node가 이미 문서에 존재하는 다른 Node를 참조한다면 현재 위치에서 새로운 위치로 이동
+
+> 조작 관련 메서드(삭제)
+
+- Node.removeChild()
+
+  - DOM에서 자식 Node를 제거
+  - 제거된 Node를 반환
+
+> 조작 관련 메서드(속성 조회 및 설정)
+
+- Element.getAttribute(attributeName)
+
+  - 해당 요소의 지정된 값(문자열)을 반환
+  - 인자(attributeName)는 값을 얻고자 하는 속성의 이름
+
+- Element.setAttribute(name, value)
+
+  - 지정된 요소 값 설정
+  - 속성이 이미 존재하면 값 갱신, 존재하지 않으면 지정된 이름과 값으로 새 속성 추가
+
+# Event 
+
+> 개요
+
+- Event란 프로그래밍하고 있는 시스템에서 일어나는 사건(action) 혹은 발생(occurrence)
+
+## Event Intro
+
+> Event object 
+
+- 네트워크 활동이나 상호작용 같은 사건의 발생을 알리기 위한 객체
+- Event 발생
+
+  - 마우스를 클릭하거나 키보드를 누르는 등 사용자 행동으로 발생할 수도 있고
+  - 특정 메서드를 호출하여 프로그래밍 적으로도 만들어낼 수 있음
+
+- DOM 요소는 Event를 받고(수신)
+- 받은 Event를 처리할 수 있음
+
+  - 주로 addEventListener() 라는 Event 처리기(Event handler)를 다양한 html 요소에 부착하여 처리
+
+> Event handler - addEventListener(type, listener)
+
+- type
+
+  - 반응할 Event 유형을 나타내는 대소문자 구분 문자열
+  - 다양한 이벤트 있음(https://developer.mozilla.org/en-US/docs/Web/Events)
+
+- listener
+
+  - 지정된 타입의 Event를 수신할 객체
+  - JavaScript function 객체(콜백 함수)여야 함
+  - 콜백 함수는 발생한 Event의 데이터를 가진 Event 객체를 유일한 매개변수로 받음
+
+> addEventListener 정리
+
+- ~하면 ~한다.
+
+  - 클릭하면 경고창을 띄운다
+  - 특정 event가 발생하면 할일을 등록한다.
+
+# Event 취소
+
+> event.preventDefault()
+
+- 현재 Event의 기본 동작 중단
+- HTML 요소의 기본 동작을 작동하지 않게 막음
+
+  - a 태그, form 태그
+
+# this
+
+> this
+
+- 어떠한 object를 가리키는 키워드
+
+  - java에서의 this 와 python 에서의 self는 인스턴스 자기 자신
+
+- JavaScript의 함수는 호출될 때 this를 암묵적으로 전달 받음
+- JavaScript는 해당 함수 호출 방식에 따라 this에 바인딩 되는 객체가 달라짐
+- 함수가 어떻게 호출 되었는지에 따라 동적으로 결정됨
+
+> this INDEX
+
+1. 전역 문맥에서의 this
+2. 함수 문맥에서의 this
+
+   - 단순 호출
+   - Method
+   - Nested
+
+> 전역 문맥에서의 this
+
+- 브라우저에서 전역 객체인 window를 가리킴
+
+> 함수 문맥에서의 this
+
+- 함수의 this 키워드는 다른 언어와 조금 다르게 동작
+
+  - this 의 값은 함수를 호출한 방법에 의해 결정됨
+
+1. 단순 호출
+
+   - 전역 객체를 가리킴
+   - 전역은 브라우저에서는 window, Node.js에서는 global
+
+2. Method(객체의 메서드)
+
+   - 메서드로 선언하고 호출한다면, 객체의 메서드이므로 해당 객체가 바인딩
+
+    ```js
+    const myObj = {
+        data: 1,
+        myFunc() {
+            console.log(this) // myObj
+            console.log(this.data) // 1
+        }
+    }
+
+    myObj.myFunc() // myObj
+    ```
+
+3. Nested(Function 키워드)
+
+   - forEach의 콜백함수에서의 this가 메서드의 객체를 가리키지 못하고 전역 객체 window를 가리킴
+   - 단순 호출 방식으로 사용되었기 때문
+   - 이를 해결하기 위해 등장한 함수 표현식이 화살표 함수
+
+```js
+const myObj = {
+    numbers: [1],
+    myFunc() {
+        console.log(this) // myObj
+        this.numbers.forEach(function (number) {
+            console.log(number) // 1
+            console.log(this) // window
+        })
+    }
+}
+
+myObj.myFunc()
+```
+
+```js
+const myObj = {
+    numbers: [1],
+    myFunc() {
+        console.log(this) // myObj
+        this.numbers.forEach((number) => {
+            console.log(number) // 1
+            console.log(this) // myObj
+        })
+    }
+}
+
+myObj.myFunc()
+```
+
+- 이전과 달리 메서드의 객체를 잘 가리킴
+- 화살표함수에서 this 는 자신을 감싼 정적 범위
+- 자동으로 한 단계 상위의 scope의 context 를 바인딩
+
+> 화살표 함수
+
+- 화살표 함수는 호출의 위치와 상관없이 상위 스코프를 가리킴(Lexical scope this)
+
+- Lexical scope
+
+  - 함수를 어디서 호출하는 지가 아니라 어디에 선언하였는지에 따라 결정
+  - Static scope라고도 하며 대부분의 프로그래밍 언어에서 따르느 방식
+
+- 따라서 함수 내의 함수 상황에서 화살표 함수를 쓰는 것을 권장
+
+> this 와 addEventListener
+
+- 하지만 addEventListener에서의 콜백 함수는 특별하게 function 키워드의 경우 addEventListener를 호출한 대상을 (event.target) 뜻함
+- 반면 화살표 함수의 경우 상위 스코프를 지칭하기 때문에 window 객체가 바인딩 됨
+- 결론
+
+  - addEventListener의 콜백함수는 function 키워드를 사용하기
+
+> this 정리
+
+- 이렇게 this가 런타임에 결정되면 장단점이 있음
+- 함수를 하나만 만들어 여러 객체에서 재사용 할 수 있다는 것은 장점이지만 이런 유연함이 실수로 이어질 수 있다는 것은 단점
+- JavaScript가 this를 다루는 방식이 좋은지, 나쁜지는 우리가 판단할 문제가 아님
+
+---
+
