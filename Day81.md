@@ -567,3 +567,1175 @@ const routes = [
     - 콜백 함수 내부에서 반드시 한 번만 호출되어야 함
     - 기본적으로 to에 해당하는 URL로 이동
 
+- URL 이 변경되어 화면이 전환되기 전 router.beforeEach()가 호출됨
+
+  - 화면이 전환되지 않고 대기 상태가 됨
+
+- 변경된 URL로 라우팅 하기 위해서는 next()를 호출해줘야 함
+
+  - next()가 호출되기 전까지 화면이 전환되지 않음
+
+> Global Before Guard 실습
+
+- '/home'으로 이동하더라도 라우팅이 되지 않고 로그만 출력됨
+- next()가 호출되지 않으면 화면이 전환되지 않음
+- next()가 호출되어야 화면이 전환됨
+
+```js
+// index.js
+import Vue from 'vue'
+import VueRouter from 'vue-router'
+import HomeView from '../views/HomeView.vue'
+import HelloView from '@/views/HelloView'
+
+Vue.use(VueRouter)
+
+const routes = [
+  {
+    path: '/',
+    name: 'home',
+    component: HomeView
+  },
+  {
+    path: '/about',
+    name: 'about',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
+  },
+  {
+    path: '/hello/:userName',
+    name: 'hello',
+    component: HelloView,
+  }
+]
+
+const router = new VueRouter({
+  mode: 'history',
+  base: process.env.BASE_URL,
+  routes
+})
+
+router.beforeEach((to, from, next) => {
+  console.log('to', to)
+  console.log('from', from)
+  console.log('next', next)
+  next()
+})
+
+
+export default router
+```
+
+> Login 여부에 따른 라우팅 처리
+
+- Login이 되어있지 않으면 Login 페이지로 이동하는 기능 추가
+
+```vue
+// views/LoginView.vue
+<template>
+  <div>
+    <h1>로그인 페이지</h1>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'LoginView',
+}
+</script>
+
+<style>
+
+</style>
+```
+
+```js
+// router/index.js
+
+import Vue from 'vue'
+import VueRouter from 'vue-router'
+import HomeView from '../views/HomeView.vue'
+import HelloView from '@/views/HelloView'
+import LoginView from '@/views/LoginView'
+
+Vue.use(VueRouter)
+
+const routes = [
+  {
+    path: '/',
+    name: 'home',
+    component: HomeView
+  },
+  {
+    path: '/about',
+    name: 'about',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
+  },
+  {
+    path: '/hello/:userName',
+    name: 'hello',
+    component: HelloView,
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: LoginView,
+  }
+]
+
+const router = new VueRouter({
+  mode: 'history',
+  base: process.env.BASE_URL,
+  routes
+})
+
+router.beforeEach((to, from, next) => {
+  console.log('to', to)
+  console.log('from', from)
+  console.log('next', next)
+  next()
+})
+
+
+export default router
+```
+
+- LoginView에 대한 라우터 링크 추가
+
+```vue
+// App.vue
+
+<template>
+  <div id="app">
+    <nav>
+      <router-link to="/">Home</router-link> |
+      <router-link to="/about">About</router-link> |
+      <router-link :to="{ name: 'hello', params: { userName: 'harry'} }">Hello</router-link> |
+      <router-link :to="{ name: 'login' }">Login</router-link>
+    </nav>
+    <router-view/>
+  </div>
+</template>
+
+<style>
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+}
+
+nav {
+  padding: 30px;
+}
+
+nav a {
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+nav a.router-link-exact-active {
+  color: #42b983;
+}
+</style>
+```
+
+- HelloView에 로그인을 해야만 접근할 수 있도록 만들어보기
+- 로그인 여부에 대한 임시 변수 생성
+- 로그인이 필요한 페이지를 저장
+
+  - 로그인이 필요한 페이지들의 이름(라우터에 등록한 name)을 작성
+
+- 앞으로 이동할 페이지(to)가 로그인이 필요한 사이트인지 확인
+
+```js
+// index.js
+
+import Vue from 'vue'
+import VueRouter from 'vue-router'
+import HomeView from '../views/HomeView.vue'
+import HelloView from '@/views/HelloView'
+import LoginView from '@/views/LoginView'
+
+Vue.use(VueRouter)
+
+const routes = [
+  {
+    path: '/',
+    name: 'home',
+    component: HomeView
+  },
+  {
+    path: '/about',
+    name: 'about',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
+  },
+  {
+    path: '/hello/:userName',
+    name: 'hello',
+    component: HelloView,
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: LoginView,
+  }
+]
+
+const router = new VueRouter({
+  mode: 'history',
+  base: process.env.BASE_URL,
+  routes
+})
+
+router.beforeEach((to, from, next) => {
+  // 로그인 여부
+  const isLoggedIn = true
+  
+  // 로그인이 필요한 페이지
+  const authPages = ['hello']
+
+  // 앞으로 이동할 페이지(to)가
+  // 로그인이 필요한 사이트인지 확인
+  const isAuthRequired = authPages.includes(to.name)
+})
+
+
+export default router
+```
+
+- isAuthRequired 값에 따라 로그인이 필요한 페이지고 로그인이 되어있지 않으면 
+
+  - Login 페이지로 이동
+
+- 그렇지 않으면
+
+  - 기존 루트로 이동
+
+- next() 인자가 없을 경우 to로 이동
+
+```js
+import Vue from 'vue'
+import VueRouter from 'vue-router'
+import HomeView from '../views/HomeView.vue'
+import HelloView from '@/views/HelloView'
+import LoginView from '@/views/LoginView'
+
+Vue.use(VueRouter)
+
+const routes = [
+  {
+    path: '/',
+    name: 'home',
+    component: HomeView
+  },
+  {
+    path: '/about',
+    name: 'about',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
+  },
+  {
+    path: '/hello/:userName',
+    name: 'hello',
+    component: HelloView,
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: LoginView,
+  }
+]
+
+const router = new VueRouter({
+  mode: 'history',
+  base: process.env.BASE_URL,
+  routes
+})
+
+router.beforeEach((to, from, next) => {
+  // 로그인 여부
+  const isLoggedIn = false
+  
+  // 로그인이 필요한 페이지
+  const authPages = ['hello']
+
+  // 앞으로 이동할 페이지(to)가
+  // 로그인이 필요한 사이트인지 확인
+  const isAuthRequired = authPages.includes(to.name)
+
+  if (isAuthRequired && !isLoggedIn) {
+    next({ name: 'login' })
+  } else {
+    next()
+  }
+})
+
+
+export default router
+```
+
+- isLoggedIn이 true 인 경우
+
+  - 정상적으로 렌더링
+
+- isLoggedIn이 false 인 경우
+
+  - Login 페이지로 이동됨
+
+- Home -> Login으로 이동했는데 console 창에 log가 2개가 찍힌 이유
+
+  - 첫 번째 출력은 /hello/harry로 접속 시도 후(전역 가드에 막힘) 전역 가드에서 login으로 이동 요청할 때 출력
+  - 두 번째 출력은 /login으로 이동 요청할 때 출력
+
+- /hello/:userName 페이지를 제외하고는 전역 가드에서 기존 주소로 이동하기 때문에 정상적으로 작동
+- 로그인이 필요한 페이지에 추가하면 비로그인 시 해당 페이지에 접근 불가
+
+- 만약 view들이 여러개라면?
+
+  - 반대로 Login 하지 않아도 되는 페이지들을 모아둘 수도 있음
+
+## 라우터가드
+
+> 라우터가드
+
+- 전체 route가 아닌 특정 route에 대해서만 가드를 설정하고 싶을 때 사용
+- beforeEnter()
+
+  - route에 진입했을 때 실행
+  - 라우터를 등록한 위치에 추가
+  - 단 매개변수, 쿼리, 해시 값이 변경될 때는 실행되지 않고 다른 경로에서 탐색할 때만 실행됨
+  - 콜백함수는 to, from, next를 인자로 받음
+
+> Login 여부에 따른 라우팅 처리
+
+- 이미 로그인 되어 있는 경우 HomeView로 이동하기
+- 로그인 여부에 대한 임시 변수 생성
+- 로그인이 되어있는 경우 home으로 이동
+- 로그인이 되어있지 않은 경우 login으로 이동
+
+```js
+// index.js
+
+import Vue from 'vue'
+import VueRouter from 'vue-router'
+import HomeView from '../views/HomeView.vue'
+import HelloView from '@/views/HelloView'
+import LoginView from '@/views/LoginView'
+
+Vue.use(VueRouter)
+
+const isLoggedIn = true
+const routes = [
+  {
+    path: '/',
+    name: 'home',
+    component: HomeView
+  },
+  {
+    path: '/about',
+    name: 'about',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
+  },
+  {
+    path: '/hello/:userName',
+    name: 'hello',
+    component: HelloView,
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: LoginView,
+    beforeEnter(to, from, next) {
+      if (isLoggedIn === true) {
+        console.log('이미 로그인 되어있음')
+        next({ name: 'home' })
+      } else {
+        next()
+      }
+    },
+  }
+]
+
+const router = new VueRouter({
+  mode: 'history',
+  base: process.env.BASE_URL,
+  routes
+})
+
+// 전역 가드
+// router.beforeEach((to, from, next) => {
+//   // 로그인 여부
+//   const isLoggedIn = false
+  
+//   // 로그인이 필요한 페이지
+//   const authPages = ['hello']
+
+//   // 앞으로 이동할 페이지(to)가
+//   // 로그인이 필요한 사이트인지 확인
+//   const isAuthRequired = authPages.includes(to.name)
+
+//   if (isAuthRequired && !isLoggedIn) {
+//     next({ name: 'login' })
+//   } else {
+//     next()
+//   }
+// })
+
+
+
+
+export default router
+```
+
+- isLoggedIn = true 인 경우
+
+  - /login 으로 접속을 시도하면 Home으로 이동
+
+- Login을 제외한 다른 페이지로 이동하면 라우터 가드를 따로 설정해주지 않았기 때문에 라우터 가드가 동작하지 않음
+- 이런식으로 특정 라우트만 따로 가드를 하고 싶은 경우에는 라우터 가드를 사용
+- isLoggedIn = false로 변경하면 Login 페이지로 정상 이동 가능
+
+## 컴포넌트 가드
+
+> 컴포넌트 가드
+
+- 특정 컴포넌트 내에서 가드를 지정하고 싶을 때 사용
+- beforeRouteUpdate()
+
+  - 해당 컴포넌트를 렌더링하는 경로가 변경될 때 실행
+
+> Params 변화 감지
+
+- about에서 jun에게 인사하는 페이지로 이동
+- navbar에 있는 Hello 를 눌러 harry 에게 인사하는 페이지로 이동
+
+  - URL은 변하지만 페이지는 변화하지 않음
+
+- 변화하지 않는 이유
+
+  - 컴포넌트가 재사용 되었기 때문
+  - 기존 컴포넌트를 지우고 새로 만드는 것보다 효율적
+
+    - 단 lifecycle hook이 호출되지 않음
+    - 따라서 $route.params에 있는 데이터를 새로 가져오지 않음
+
+- beforeRouteUpdate()를 사용해서 처리
+
+  - userName을 이동할 params에 있는 userName으로 재할당
+
+```vue
+// HelloView.vue
+
+<template>
+  <div>
+    <h1>hello, {{ userName }}</h1>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'HelloView',
+  data() {
+    return {
+      userName: this.$route.params.userName
+    }
+  },
+  beforeRouteUpdate(to, from, next) {
+    this.userName = to.params.userName
+    next()
+  }
+}
+</script>
+
+<style>
+
+</style>
+```
+
+# 404 Not Found
+
+> 404 Not Found
+
+- 사용자가 요청한 리소스가 존재하지 않을 때 응답
+
+```vue
+// NotFound404.vue
+
+<template>
+  <div>
+    <h1>404 Not Found</h1>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'NotFound404',
+}
+</script>
+
+<style>
+
+</style>
+```
+
+```js
+// index.js
+
+import Vue from 'vue'
+import VueRouter from 'vue-router'
+import HomeView from '../views/HomeView.vue'
+import HelloView from '@/views/HelloView'
+import LoginView from '@/views/LoginView'
+import NotFound404 from '@/views/NotFound404'
+
+Vue.use(VueRouter)
+
+const isLoggedIn = true
+const routes = [
+  {
+    path: '/',
+    name: 'home',
+    component: HomeView
+  },
+  {
+    path: '/about',
+    name: 'about',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
+  },
+  {
+    path: '/hello/:userName',
+    name: 'hello',
+    component: HelloView,
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: LoginView,
+    beforeEnter(to, from, next) {
+      if (isLoggedIn === true) {
+        console.log('이미 로그인 되어있음')
+        next({ name: 'home' })
+      } else {
+        next()
+      }
+    },
+  },
+  {
+    path: '/404',
+    name: 'NotFound404',
+    component: NotFound404,
+  },
+]
+
+const router = new VueRouter({
+  mode: 'history',
+  base: process.env.BASE_URL,
+  routes
+})
+
+// 전역 가드
+// router.beforeEach((to, from, next) => {
+//   // 로그인 여부
+//   const isLoggedIn = false
+  
+//   // 로그인이 필요한 페이지
+//   const authPages = ['hello']
+
+//   // 앞으로 이동할 페이지(to)가
+//   // 로그인이 필요한 사이트인지 확인
+//   const isAuthRequired = authPages.includes(to.name)
+
+//   if (isAuthRequired && !isLoggedIn) {
+//     next({ name: 'login' })
+//   } else {
+//     next()
+//   }
+// })
+
+
+
+
+export default router
+```
+
+- 이렇게 직접 요청하는 방식이 아닌, 요청한 리소스가 존재하지 않을 때 404로 이동하도록 하려면 어덯게 해야 할까?
+
+> 요청한 리소스가 존재하지 않는 경우
+
+- 모든 경로에 대해서 404 page로 redirect 시키기
+
+  - 기존에 명시한 경로가 아닌 모든 경로가 404 page로 redirect 됨
+  - 이때, routes의 최하단부에 작성해야 함
+
+```js
+import Vue from 'vue'
+import VueRouter from 'vue-router'
+import HomeView from '../views/HomeView.vue'
+import HelloView from '@/views/HelloView'
+import LoginView from '@/views/LoginView'
+import NotFound404 from '@/views/NotFound404'
+
+Vue.use(VueRouter)
+
+const isLoggedIn = true
+const routes = [
+  {
+    path: '/',
+    name: 'home',
+    component: HomeView
+  },
+  {
+    path: '/about',
+    name: 'about',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
+  },
+  {
+    path: '/hello/:userName',
+    name: 'hello',
+    component: HelloView,
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: LoginView,
+    beforeEnter(to, from, next) {
+      if (isLoggedIn === true) {
+        console.log('이미 로그인 되어있음')
+        next({ name: 'home' })
+      } else {
+        next()
+      }
+    },
+  },
+  {
+    path: '/404',
+    name: 'NotFound404',
+    component: NotFound404,
+  },
+  {
+    path: '*',
+    redirect: '/404'
+  }
+]
+
+const router = new VueRouter({
+  mode: 'history',
+  base: process.env.BASE_URL,
+  routes
+})
+
+// 전역 가드
+// router.beforeEach((to, from, next) => {
+//   // 로그인 여부
+//   const isLoggedIn = false
+  
+//   // 로그인이 필요한 페이지
+//   const authPages = ['hello']
+
+//   // 앞으로 이동할 페이지(to)가
+//   // 로그인이 필요한 사이트인지 확인
+//   const isAuthRequired = authPages.includes(to.name)
+
+//   if (isAuthRequired && !isLoggedIn) {
+//     next({ name: 'login' })
+//   } else {
+//     next()
+//   }
+// })
+
+
+
+
+export default router
+```
+
+> 형식은 유효하지만 특정 리소스를 찾을 수 없는 경우
+
+- ex. django에게 articles/1/로 요청을 보냈지만, 1번 게시글이 삭제된 상태
+
+  - 이때는 path: '*'를 만나 404 page가 렌더링 되는 것이 아니라 기존에 명시한 articles/:id/에 대한 components가 렌더링 됨
+  - 하지만 데이터가 존재하지 않기 때문에 정상적으로 렌더링이 되지 않음
+
+- 해결책
+
+  - 데이터가 없음을 명시
+  - 404 page로 이동해야 함
+
+- DogAPI 문서를 참고하여 동적 인자로 강아지 품종을 전달해 품종에 대한 랜덤 이미지를 출력하는 페이지를 만들어보기
+
+1. axios 설치
+2. DogView 컴포넌트 작성
+3. routes에 등록
+
+   - '*'보다 상단에 등록
+
+```vue
+// DogView.vue
+
+<template>
+  <div></div>
+</template>
+
+<script>
+export default {
+  name: 'DogView',
+}
+</script>
+
+<style>
+
+</style>
+```
+
+```js
+// index.js
+
+import Vue from 'vue'
+import VueRouter from 'vue-router'
+import HomeView from '../views/HomeView.vue'
+import HelloView from '@/views/HelloView'
+import LoginView from '@/views/LoginView'
+import NotFound404 from '@/views/NotFound404'
+import DogView from '@/views/DogView'
+
+Vue.use(VueRouter)
+
+const isLoggedIn = true
+const routes = [
+  {
+    path: '/',
+    name: 'home',
+    component: HomeView
+  },
+  {
+    path: '/about',
+    name: 'about',
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
+  },
+  {
+    path: '/hello/:userName',
+    name: 'hello',
+    component: HelloView,
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: LoginView,
+    beforeEnter(to, from, next) {
+      if (isLoggedIn === true) {
+        console.log('이미 로그인 되어있음')
+        next({ name: 'home' })
+      } else {
+        next()
+      }
+    },
+  },
+  {
+    path: '/404',
+    name: 'NotFound404',
+    component: NotFound404,
+  },
+  {
+    path: '/dog/:breed',
+    name: 'dog',
+    component: DogView
+  },
+  {
+    path: '*',
+    redirect: '/404'
+  }
+]
+
+const router = new VueRouter({
+  mode: 'history',
+  base: process.env.BASE_URL,
+  routes
+})
+
+// 전역 가드
+// router.beforeEach((to, from, next) => {
+//   // 로그인 여부
+//   const isLoggedIn = false
+  
+//   // 로그인이 필요한 페이지
+//   const authPages = ['hello']
+
+//   // 앞으로 이동할 페이지(to)가
+//   // 로그인이 필요한 사이트인지 확인
+//   const isAuthRequired = authPages.includes(to.name)
+
+//   if (isAuthRequired && !isLoggedIn) {
+//     next({ name: 'login' })
+//   } else {
+//     next()
+//   }
+// })
+
+
+
+
+export default router
+```
+
+- Dog api 문서를 참고하여 axios 로직을 작성
+
+```vue
+// DogView.vue
+
+<template>
+  <div>
+    <img v-if="imgSrc" :src="imgSrc" alt=""><br>
+  </div>
+</template>
+
+<script>
+import axios from 'axios'
+
+export default {
+  name: 'DogView',
+  data() {
+    return {
+      imgSrc: null,
+    }
+  },
+  methods: {
+    getDogImage() {
+      const breed = this.$route.params.breed
+      const dogImageSearchURL = `https://dog.ceo/api/breed/${breed}/imgaes/random`
+      axios({
+        method: 'get',
+        url: dogImageSearchURL
+      })
+        .then((response) => {
+          const imgSrc = response.data.message
+          this.imgSrc = imgSrc
+        })
+        .catch((error) => console.log(error))
+    }
+  },
+  create() {
+    this.getDogImage()
+  }
+}
+</script>
+
+<style>
+
+</style>
+```
+
+- /dog/hound 에 접속하면 hound 품종에 대한 랜덤 사진이 출력
+
+- axios 요청이 오는 중 동작하고 있음을 표현하기 위한 로딩 메시지 정의
+
+```vue
+// DogView.vue
+
+<template>
+  <div>
+    <p v-if='!imgSrc'>{{ message }}</p>
+    <img v-if="imgSrc" :src="imgSrc" alt=""><br>
+  </div>
+</template>
+
+<script>
+import axios from 'axios'
+
+export default {
+  name: 'DogView',
+  data() {
+    return {
+      imgSrc: null,
+      message: "로딩중...",
+    }
+  },
+  methods: {
+    getDogImage() {
+      const breed = this.$route.params.breed
+      const dogImageSearchURL = `https://dog.ceo/api/breed/${breed}/imgaes/random`
+      axios({
+        method: 'get',
+        url: dogImageSearchURL
+      })
+        .then((response) => {
+          const imgSrc = response.data.message
+          this.imgSrc = imgSrc
+        })
+        .catch((error) => console.log(error))
+    }
+  },
+  create() {
+    this.getDogImage()
+  }
+}
+</script>
+
+<style>
+
+</style>
+```
+
+- axios 요청이 실패한 경우 자료가 없음을 표현하기
+
+```vue
+// DogView.vue
+
+<template>
+  <div>
+    <p v-if='!imgSrc'>{{ message }}</p>
+    <img v-if="imgSrc" :src="imgSrc" alt=""><br>
+  </div>
+</template>
+
+<script>
+import axios from 'axios'
+
+export default {
+  name: 'DogView',
+  data() {
+    return {
+      imgSrc: null,
+      message: "로딩중...",
+    }
+  },
+  methods: {
+    getDogImage() {
+      const breed = this.$route.params.breed
+      const dogImageSearchURL = `https://dog.ceo/api/breed/${breed}/imgaes/random`
+      axios({
+        method: 'get',
+        url: dogImageSearchURL
+      })
+        .then((response) => {
+          const imgSrc = response.data.message
+          this.imgSrc = imgSrc
+        })
+        .catch((error) => {
+          this.message = `${this.$route.params.breed}는 없는 품종입니다.`
+          console.log(error)
+        })
+    }
+  },
+  create() {
+    this.getDogImage()
+  }
+}
+</script>
+
+<style>
+
+</style>
+```
+
+> 404 Not Found
+
+- 이전처럼 메시지를 바꿀 수도 있지만 axios 요청이 실패할 경우 404 페이지로 이동시킬 수도 있음
+
+```vue
+// DogView.vue
+
+<template>
+  <div>
+    <p v-if='!imgSrc'>{{ message }}</p>
+    <img v-if="imgSrc" :src="imgSrc" alt=""><br>
+  </div>
+</template>
+
+<script>
+import axios from 'axios'
+
+export default {
+  name: 'DogView',
+  data() {
+    return {
+      imgSrc: null,
+      message: "로딩중...",
+    }
+  },
+  methods: {
+    getDogImage() {
+      const breed = this.$route.params.breed
+      const dogImageSearchURL = `https://dog.ceo/api/breed/${breed}/imgaes/random`
+      axios({
+        method: 'get',
+        url: dogImageSearchURL
+      })
+        .then((response) => {
+          const imgSrc = response.data.message
+          this.imgSrc = imgSrc
+        })
+        .catch((error) => {
+          this.$router.push('/404')
+          console.log(error)
+        })
+    }
+  },
+  create() {
+    this.getDogImage()
+  }
+}
+</script>
+
+<style>
+
+</style>
+```
+
+# Articles with Vue
+
+> 개요
+
+- 지금까지 배운 내용들을 종합하여 Django에서 만들었던 게시판 만들기
+- 구현 기능
+
+  - Index
+  - Create
+  - Detail
+  - Delete
+  - 404
+
+> 사전 준비
+
+- 프로젝트 시작
+
+  - vue create articles
+  - cd articles
+  - vue add vuex
+  - vue add router
+
+---
+
+## Index
+
+> 개요
+
+- articles의 목록을 보여주는 index 페이지 작성
+
+> Index 구현
+
+- state
+- 게시글의 필드는 id, 제목, 내용, 생성일자
+- DB의 AUTO INCREMENT를 표현하기 위해 article_id를 추가로 정의해줌
+- IndexView 컴포넌트 및 라우터 작성
+- state에서 불러온 articles 출력하기
+- ArticleItem 컴포넌트 작성
+- IndexView 컴포넌트에서 ArticleTime 컴포넌트 등록 및 props 데이터 전달
+- props 데이터 선언 및 게시글 출력
+- 결과 확인
+
+## Create
+
+- CreateView 컴포넌트 및 라우터 작성
+- Form 생성 및 데이터 정의
+- v-on:{event}.prevent 를 활용하여 submit 이벤트 동작 취소하기
+
+  - 다른 url로 넘어가지기 때문.
+
+- actions에 여러 개의 데이터를 넘길 때 하나의 object로 만들어서 전달
+- v-model.trim을 활용하여 입력 값의 공백을 제거
+- 데이터가 없는 경우 alert, 데이터가 있는 경우 actions로 전달
+- actions에서는 넘어온 데이터를 활용하여 article 생성 후 mutations 호출
+
+  - 이때 id로 article_id 활용
+
+- mutations에서는 전달된 article 객체를 사용해 게시글 작성
+
+  - 다음 게시글을 위해 article_id 값 1 증가
+
+- CreateView 컴포넌트에 Index 페이지로 이동하는 뒤로가기 링크 추가
+- 게시글 생성 후 Index 페이지로 이동하도록 네비게이터 작성
+- IndexView 컴포넌트에 게시글 작성 페이지로 이동하는 링크 추가
+
+## Detail
+
+> Detail 구현
+
+- DetailView 컴포넌트 및 라우터 작성
+- id를 동적인자로 전달
+- article 정의 및 state에서 articles 가져오기
+- articles에서 동적인자를 통해 받은 id에 해당하는 article 가져오기
+- 이때, 동적 인자를 받은 id는 str 이므로 형변환을 해서 비교
+- article 출력
+- created lifecycle hook을 통해 인스턴스가 생성되었을 때 article을 가져오는 함수 호출
+
+> 만약 서버에서 데이터를 가져왔다면?
+
+- 우리는 현재 state를 통해 데이터를 동기적으로 가져오지만, 실제로는 서버로부터 가져옴
+
+  - 데이터를 가져오는 데 시간이 걸림
+
+- created 를 주석처리 하고 데이터가 서버로부터 오는데 시간이 걸림을 가정해보자
+
+- 그런데 article이 null이기 때문에 id등의 속성을 가져올 수 없음
+- optional chaining(?.)을 통해 article 객체가 있을 때만 출력되도록 수정
+- created 주석을 다시 해제
+
+> Optional Chaining
+
+- Optional Chaning(?.)앞의 평가 대상이 undefined나 null 이면 에러가 발생하지 않고 undefined를 반환(ES2020에서 추가된 문법)
+
+> Date in JavaScript
+
+- Date().toLocaleString()을 사용하여 변환
+- 로컬시간으로 변환해주는 computed 값 작성 및 출력
+
+> Detail 구현
+
+- DetailView 컴포넌트에 뒤로가기 링크 추가
+- 각 게시글을 클릭하면 detail 페이지로 이동하도록 ArticleItem에 이벤트 추가
+- v-on 이벤트 핸들러에도 인자 전달 가능
+
+## Delete
+
+> Delete 구현
+
+- DetailView 컴포넌트에 삭제 버튼을 만들고, mutations를 호출
+- mutations에서 id에 해당하는 게시글을 지움
+- 삭제 후 index 페이지로 이동하도록 네비게이션 작성
+
+## 404 Not Found
+
+> 404 페이지 구현
+
+- NotFound404 컴포넌트 및 라우터 작성
+- Detail에 대한 route보다 먼저 등록해줘야 함
+
+  - 또한, /404로 등록하면 404번째 게시글과 혼동할 수 있게 됨
+
+- DetailView 컴포넌트에 id에 해당하는 article이 없으면 404 페이지로 이동
+- 요청한 리소스가 존재하지 않는 경우 없는 id가 아닌 전혀 다른 요청에도 대비하여 404 page로 redirect 시키기
+
+  - $router.push와 마찬가지로 name을 이용하여 이동할 수 있음
+  - 최하단에 작성해야 함
+
+# 마무리
+
+- UX & UI
+- Vue Router
+- Navigation Guard
+- Articles app with Vue
+
