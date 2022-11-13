@@ -85,8 +85,9 @@
 
 - css tricks
 
-> 속성값들
+> item 속성값들
 
 - flex-grow : 웹의 크기가 달라지면 같이 달라짐. 기본값 0
 - flex-shrink: container가 작아졌을 때 행동하는 것. 기본값 0
 - flex-basis: grow + shrink 합친 것. 기본값 auto. %로 사용
+- align-self: item별로 정리
