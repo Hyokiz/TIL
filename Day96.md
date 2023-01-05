@@ -13,3 +13,7 @@
 
 - Scrum vs Kanban
 
+> DevOps
+
+- 운영
+
