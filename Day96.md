@@ -120,4 +120,5 @@
 
 > JQL 활용 예시 : filter share
 
-
+- issue 에 JQL 을 사용하여 걸러내고
+- filter로 저장하고 사용할 수 있음
