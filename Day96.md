@@ -122,3 +122,29 @@
 
 - issue 에 JQL 을 사용하여 걸러내고
 - filter로 저장하고 사용할 수 있음
+
+> 현업에서의 Jira 활용
+
+- DevOps 간략화
+
+1. Issue Tracking
+
+   - Jira Software
+
+2. Repo. Hosting
+
+   - Bitbucket
+   - gerrit
+   - GitHub
+
+3. Code Review
+
+   - Bitbucket
+   - gerrit
+   - GitHub
+
+4. Build & Deploy
+
+   - Bamboo
+   - Jenkins
+   - circleci
