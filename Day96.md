@@ -108,3 +108,16 @@
 
   - 오늘 기준으로 내일 날짜는 1d, 어제 날짜는 -1d, 다음주 목요일은 1w 등으로 표현 가능
 
+> JQL Functions
+
+- endOfDay() : 오늘 하루 끝
+- startOfDay() : 오늘 하루 첫시간
+- endOfWeek() : 한 주의 끝(토요일)
+- startOfWeek() : 한 주의 시작(일요일)
+- endOfMonth(), startOfMonth, endOfYear(), startOfMonth()
+- currentUser() : 현재 로그인 한 사용자
+- endOfWeek(-1d) : 월요일부터 금요일까지
+
+> JQL 활용 예시 : filter share
+
+
